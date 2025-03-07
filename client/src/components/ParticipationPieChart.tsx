@@ -12,6 +12,10 @@ interface ParticipationPieChartProps {
 export default function ParticipationPieChart({ participationRate }: ParticipationPieChartProps) {
   const absentRate = 100 - participationRate;
 
+  // Assuming total training sessions in a season is 100 for percentage calculation
+  const totalSessions = 100;
+  const presentSessions = Math.round(participationRate * totalSessions / 100);
+
   const data = {
     labels: ['Present', 'Absent'],
     datasets: [
@@ -62,7 +66,10 @@ export default function ParticipationPieChart({ participationRate }: Participati
       </div>
       <div className="mt-2 text-center">
         <span className="text-xl font-bold text-primary">{participationRate}%</span>
-        <p className="text-xs text-gray-600 mt-0.5">Overall Participation</p>
+        <div className="text-xs text-gray-600 mt-0.5">
+          <p>Overall Participation</p>
+          <p className="mt-1 font-medium">{presentSessions}/{totalSessions} Sessions</p>
+        </div>
       </div>
     </div>
   );
