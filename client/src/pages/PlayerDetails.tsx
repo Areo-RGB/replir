@@ -3,6 +3,7 @@ import { useRoute, useLocation } from 'wouter';
 import { Activity, Medal, TrendingUp } from 'lucide-react';
 import { athleteData } from '../data';
 import PerformanceChart from '@/components/PerformanceChart';
+import RadarChart from '@/components/RadarChart';
 
 // Calculate z-scores and aggregate performance
 const calculateZScores = () => {
@@ -97,11 +98,9 @@ export default function PlayerDetails() {
         </div>
       </div>
 
-      <div className="space-y-6">
-        <PerformanceChart 
-          data={athleteData}
-          selectedAthlete={playerName} 
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <RadarChart data={athleteData} selectedAthlete={playerName} />
+        <PerformanceChart data={athleteData} selectedAthlete={playerName} />
       </div>
     </div>
   );
