@@ -96,7 +96,6 @@ export const athleteData: AthleteResult[] = [
   { test: "50m Sprint", athlete: "Iraklis", category: "speed", result: 9.51, unit: "s" },
   { test: "50m Sprint", athlete: "Lion", category: "speed", result: 9.60, unit: "s" },
   { test: "50m Sprint", athlete: "August", category: "speed", result: 10.25, unit: "s" },
-  { test: "50m Sprint", athlete: "Carlito", category: "speed", result: 10.49, unit: "s" },
 
   // Coordination tests
   { test: "Seilspringen", athlete: "Arvid", category: "coordination", result: 32, unit: "Reps" },
