@@ -47,9 +47,30 @@ const calculateZScores = () => {
 export default function PlayerDetails() {
   const [, params] = useRoute('/player/:name');
   const [, setLocation] = useLocation();
-  const playerName = params?.name;
 
+  // If no player name is provided, redirect to home
+  useEffect(() => {
+    if (!params?.name) {
+      setLocation('/');
+    }
+  }, [params?.name, setLocation]);
+
+  // Early return if no player name
+  if (!params?.name) return null;
+
+  const playerName = params.name;
   const player = athleteData.find(result => result.athlete === playerName);
+
+  // If player not found, redirect to home
+  useEffect(() => {
+    if (!player) {
+      setLocation('/');
+    }
+  }, [player, setLocation]);
+
+  // Early return if player not found
+  if (!player) return null;
+
   const participationData = athleteData.find(
     result => result.athlete === playerName && result.test === "Teilnahme"
   );
@@ -58,14 +79,6 @@ export default function PlayerDetails() {
   const topPerformers = calculateZScores()
     .sort((a, b) => b.averageZScore - a.averageZScore)
     .slice(0, 3);
-
-  useEffect(() => {
-    if (!player) {
-      setLocation('/');
-    }
-  }, [player, setLocation]);
-
-  if (!player) return null;
 
   return (
     <div className="p-6">
