@@ -5,6 +5,7 @@ import { athleteData } from '../data';
 import PerformanceChart from '@/components/PerformanceChart';
 import RadarChart from '@/components/RadarChart';
 import ResultsTable from '@/components/ResultsTable';
+import ParticipationPieChart from '@/components/ParticipationPieChart';
 
 // Calculate z-scores and aggregate performance
 const calculateZScores = () => {
@@ -49,6 +50,11 @@ export default function PlayerDetails() {
   const playerName = params?.name;
 
   const player = athleteData.find(result => result.athlete === playerName);
+  const participationData = athleteData.find(
+    result => result.athlete === playerName && result.test === "Teilnahme"
+  );
+  const participationRate = participationData?.result ?? 0;
+
   const topPerformers = calculateZScores()
     .sort((a, b) => b.averageZScore - a.averageZScore)
     .slice(0, 3);
@@ -99,9 +105,10 @@ export default function PlayerDetails() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         <RadarChart data={athleteData} selectedAthlete={playerName} />
         <PerformanceChart data={athleteData} selectedAthlete={playerName} />
+        <ParticipationPieChart participationRate={participationRate} />
       </div>
 
       <ResultsTable data={athleteData} selectedAthlete={playerName} />
