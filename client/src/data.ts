@@ -32,10 +32,31 @@ export const categories: Category[] = [
     id: "coordination",
     name: "Coordination",
     description: "Tests measuring agility and motor skills"
+  },
+  {
+    id: "participation",
+    name: "Participation",
+    description: "Percentage of participation"
   }
 ];
 
 export const athleteData: AthleteResult[] = [
+  // Participation data
+  { test: "Teilnahme", athlete: "Levi", category: "participation", result: 91, unit: "%" },
+  { test: "Teilnahme", athlete: "Silas", category: "participation", result: 87, unit: "%" },
+  { test: "Teilnahme", athlete: "August", category: "participation", result: 87, unit: "%" },
+  { test: "Teilnahme", athlete: "Lasse", category: "participation", result: 89, unit: "%" },
+  { test: "Teilnahme", athlete: "Finley", category: "participation", result: 86, unit: "%" },
+  { test: "Teilnahme", athlete: "Erik", category: "participation", result: 86, unit: "%" },
+  { test: "Teilnahme", athlete: "Carl", category: "participation", result: 82, unit: "%" },
+  { test: "Teilnahme", athlete: "Lion", category: "participation", result: 75, unit: "%" },
+  { test: "Teilnahme", athlete: "Nicklas", category: "participation", result: 89, unit: "%" },
+  { test: "Teilnahme", athlete: "Orestis", category: "participation", result: 87, unit: "%" },
+  { test: "Teilnahme", athlete: "Paul", category: "participation", result: 84, unit: "%" },
+  { test: "Teilnahme", athlete: "Iraklis", category: "participation", result: 83, unit: "%" },
+  { test: "Teilnahme", athlete: "Carl.J", category: "participation", result: 79, unit: "%" },
+  { test: "Teilnahme", athlete: "Arvid", category: "participation", result: 86, unit: "%" },
+
   // Speed (Schnelligkeit) tests
   { test: "Antritt (10m)", athlete: "August", category: "speed", result: 2.38, unit: "s" },
   { test: "Antritt (10m)", athlete: "Iraklis", category: "speed", result: 2.16, unit: "s" },
@@ -81,26 +102,4 @@ export const athleteData: AthleteResult[] = [
   // Endurance (Ausdauer) tests
   { test: "800m Lauf", athlete: "Finley", category: "endurance", result: 198, unit: "s" },
   { test: "800m Lauf", athlete: "Erik", category: "endurance", result: 186, unit: "s" }
-];
-
-export interface AthleteParticipation {
-  athlete: string;
-  participation: number;
-}
-
-export const participationData: AthleteParticipation[] = [
-  { athlete: "Levi", participation: 91 },
-  { athlete: "Silas", participation: 87 },
-  { athlete: "August", participation: 87 },
-  { athlete: "Lasse", participation: 89 },
-  { athlete: "Finley", participation: 86 },
-  { athlete: "Erik", participation: 86 },
-  { athlete: "Carl", participation: 82 },
-  { athlete: "Lion", participation: 75 },
-  { athlete: "Nicklas", participation: 89 },
-  { athlete: "Orestis", participation: 87 },
-  { athlete: "Paul", participation: 84 },
-  { athlete: "Iraklis", participation: 83 },
-  { athlete: "Carl.J", participation: 79 },
-  { athlete: "Arvid", participation: 86 }
 ];

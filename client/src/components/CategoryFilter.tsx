@@ -4,7 +4,8 @@ import {
   Zap, 
   Timer, 
   Dumbbell, 
-  MoveDiagonal
+  MoveDiagonal,
+  Users
 } from 'lucide-react';
 
 interface CategoryFilterProps {
@@ -18,6 +19,7 @@ const categoryIcons = {
   'endurance': Timer,
   'strength': Dumbbell,
   'coordination': MoveDiagonal,
+  'participation': Users,
 };
 
 export default function CategoryFilter({ 
