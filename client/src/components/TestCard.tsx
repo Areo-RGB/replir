@@ -24,19 +24,33 @@ export default function TestCard({ title, results, selectedAthlete }: TestCardPr
   const getIcon = (unit: string) => {
     switch (unit) {
       case 's':
-        return <Timer className="text-blue-500 h-5 w-5" />;
+        return <Timer className="text-blue-500 h-4 w-4" />;
       case 'Reps':
-        return <Activity className="text-green-500 h-5 w-5" />;
+        return <Activity className="text-green-500 h-4 w-4" />;
       default:
-        return <Trophy className="text-yellow-500 h-5 w-5" />;
+        return <Trophy className="text-yellow-500 h-4 w-4" />;
     }
   };
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-shadow">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="font-semibold text-gray-900 truncate flex-1">{title}</h3>
-        {getIcon(bestResult.unit)}
+        <div className="flex items-center gap-2">
+          {getIcon(bestResult.unit)}
+          <h3 className="font-semibold text-gray-900 truncate">{title}</h3>
+        </div>
+        <div className="flex items-center gap-1.5 text-sm">
+          <span className="text-gray-500">Avg:</span>
+          <PerformanceIcon 
+            value={average} 
+            average={average} 
+            unit={bestResult.unit} 
+            className="h-3.5 w-3.5"
+          />
+          <span className="font-medium tabular-nums text-gray-700">
+            {average.toFixed(2)} {bestResult.unit}
+          </span>
+        </div>
       </div>
 
       <div className="space-y-2">
@@ -92,11 +106,6 @@ export default function TestCard({ title, results, selectedAthlete }: TestCardPr
           )}
         </button>
       )}
-
-      <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between text-sm text-gray-500">
-        <span>Average</span>
-        <span className="tabular-nums">{average.toFixed(2)} {bestResult.unit}</span>
-      </div>
     </div>
   );
 }
