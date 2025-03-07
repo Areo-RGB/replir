@@ -34,6 +34,13 @@ export default function ParticipationPieChart({ participationRate }: Participati
     plugins: {
       legend: {
         position: 'bottom' as const,
+        labels: {
+          boxWidth: 12,
+          padding: 10,
+          font: {
+            size: 11
+          }
+        }
       },
       tooltip: {
         callbacks: {
@@ -41,20 +48,21 @@ export default function ParticipationPieChart({ participationRate }: Participati
         }
       }
     },
+    maintainAspectRatio: false,
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6">
-      <div className="flex items-center gap-2 mb-4">
+    <div className="bg-white rounded-xl shadow-sm p-4">
+      <div className="flex items-center gap-2 mb-2">
         <PartyPopper className="h-5 w-5 text-primary" />
         <h2 className="text-lg font-semibold text-gray-900">Participation Rate</h2>
       </div>
-      <div className="h-[300px] flex items-center justify-center">
+      <div className="h-[200px] flex items-center justify-center">
         <Pie data={data} options={options} />
       </div>
-      <div className="mt-4 text-center">
-        <span className="text-2xl font-bold text-primary">{participationRate}%</span>
-        <p className="text-sm text-gray-600 mt-1">Overall Participation</p>
+      <div className="mt-2 text-center">
+        <span className="text-xl font-bold text-primary">{participationRate}%</span>
+        <p className="text-xs text-gray-600 mt-0.5">Overall Participation</p>
       </div>
     </div>
   );
