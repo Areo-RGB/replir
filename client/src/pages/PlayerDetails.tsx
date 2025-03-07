@@ -4,6 +4,7 @@ import { Activity, Medal, TrendingUp } from 'lucide-react';
 import { athleteData } from '../data';
 import PerformanceChart from '@/components/PerformanceChart';
 import RadarChart from '@/components/RadarChart';
+import ResultsTable from '@/components/ResultsTable';
 
 // Calculate z-scores and aggregate performance
 const calculateZScores = () => {
@@ -98,10 +99,12 @@ export default function PlayerDetails() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <RadarChart data={athleteData} selectedAthlete={playerName} />
         <PerformanceChart data={athleteData} selectedAthlete={playerName} />
       </div>
+
+      <ResultsTable data={athleteData} selectedAthlete={playerName} />
     </div>
   );
 }
