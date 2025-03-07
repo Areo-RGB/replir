@@ -6,7 +6,7 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { AthleteResult, categories } from '../data';
@@ -14,7 +14,8 @@ import {
   Zap, 
   Timer, 
   Dumbbell, 
-  MoveDiagonal
+  MoveDiagonal,
+  Users
 } from 'lucide-react';
 
 ChartJS.register(
@@ -31,17 +32,18 @@ interface PerformanceChartProps {
   selectedAthlete: string;
 }
 
-const categoryIcons = {
+const categoryIcons: Record<string, React.ComponentType> = {
   'speed': Zap,
   'endurance': Timer,
   'strength': Dumbbell,
   'coordination': MoveDiagonal,
+  'participation': Users
 };
 
 export default function PerformanceChart({ data, selectedAthlete }: PerformanceChartProps) {
   // Calculate performance percentage for each category
   const calculateCategoryPerformance = (category: string): number => {
-    const categoryTests = data.filter(result => result.category === category);
+    const categoryTests = data.filter(result => result.category === category && result.category !== 'participation');
     const uniqueTests = Array.from(new Set(categoryTests.map(result => result.test)));
 
     let totalPerformance = 0;
@@ -68,10 +70,13 @@ export default function PerformanceChart({ data, selectedAthlete }: PerformanceC
   };
 
   // Calculate performance data for each category
-  const categoryPerformances = categories.map(category => ({
-    category: category.name,
-    performance: calculateCategoryPerformance(category.id)
-  })).filter(cat => cat.performance !== 0);
+  const categoryPerformances = categories
+    .filter(category => category.id !== 'participation') // Exclude participation from performance calculation
+    .map(category => ({
+      category: category.name,
+      performance: calculateCategoryPerformance(category.id)
+    }))
+    .filter(cat => cat.performance !== 0);
 
   const options = {
     indexAxis: 'y' as const,
@@ -95,7 +100,7 @@ export default function PerformanceChart({ data, selectedAthlete }: PerformanceC
           color: 'rgba(0, 0, 0, 0.05)',
         },
         ticks: {
-          callback: (value: number) => `${value}%`
+          callback: (value: any) => `${value}%`
         }
       },
       y: {
@@ -136,8 +141,8 @@ export default function PerformanceChart({ data, selectedAthlete }: PerformanceC
       </div>
 
       <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {categories.map(category => {
-          const Icon = categoryIcons[category.id as keyof typeof categoryIcons];
+        {categories.filter(category => category.id !== 'participation').map(category => {
+          const Icon = categoryIcons[category.id];
           const performance = categoryPerformances.find(p => p.category === category.name)?.performance ?? 0;
 
           return (
