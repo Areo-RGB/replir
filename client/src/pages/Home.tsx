@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Activity, Search, Medal, TrendingUp } from 'lucide-react';
-import { athleteData, categories } from '../data';
+import { athleteData, categories, participationData } from '../data';
 import CategoryFilter from '@/components/CategoryFilter';
 import TestCard from '@/components/TestCard';
+import ParticipationCard from '@/components/ParticipationCard';
 
 // Calculate z-scores and aggregate performance
 const calculateZScores = () => {
@@ -88,35 +89,39 @@ export default function Home() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-6">
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Medal className="h-5 w-5 text-yellow-500" />
-            Top Performers
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {topPerformers.map((performer, index) => (
-              <div 
-                key={performer.athlete}
-                className={`bg-white rounded-lg p-4 shadow-sm border-l-4 ${
-                  index === 0 ? 'border-yellow-400' :
-                  index === 1 ? 'border-gray-400' :
-                  'border-amber-600'
-                }`}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-medium text-gray-900">{performer.athlete}</span>
-                  <TrendingUp className={`h-4 w-4 ${
-                    index === 0 ? 'text-yellow-500' :
-                    index === 1 ? 'text-gray-500' :
-                    'text-amber-600'
-                  }`} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <Medal className="h-5 w-5 text-yellow-500" />
+              Top Performers
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {topPerformers.map((performer, index) => (
+                <div 
+                  key={performer.athlete}
+                  className={`bg-white rounded-lg p-4 shadow-sm border-l-4 ${
+                    index === 0 ? 'border-yellow-400' :
+                    index === 1 ? 'border-gray-400' :
+                    'border-amber-600'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-medium text-gray-900">{performer.athlete}</span>
+                    <TrendingUp className={`h-4 w-4 ${
+                      index === 0 ? 'text-yellow-500' :
+                      index === 1 ? 'text-gray-500' :
+                      'text-amber-600'
+                    }`} />
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    Performance Score: {performer.averageZScore.toFixed(2)}
+                  </div>
                 </div>
-                <div className="text-sm text-gray-600">
-                  Performance Score: {performer.averageZScore.toFixed(2)}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+
+          <ParticipationCard data={participationData} />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

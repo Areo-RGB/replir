@@ -48,7 +48,7 @@ export const athleteData: AthleteResult[] = [
   { test: "Antritt (10m)", athlete: "Lion", category: "speed", result: 2.09, unit: "s" },
   { test: "Antritt (10m)", athlete: "Nicklas", category: "speed", result: 2.13, unit: "s" },
   { test: "Antritt (10m)", athlete: "CJ", category: "speed", result: 2.12, unit: "s" },
-  
+
   // Coordination (Koordination) tests
   { test: "Seilspringen", athlete: "Arvid", category: "coordination", result: 32, unit: "Reps" },
   { test: "Seilspringen", athlete: "Carl", category: "coordination", result: 10, unit: "Reps" },
@@ -60,7 +60,7 @@ export const athleteData: AthleteResult[] = [
   { test: "Seilspringen", athlete: "Levi", category: "coordination", result: 22, unit: "Reps" },
   { test: "Seilspringen", athlete: "Lion", category: "coordination", result: 66, unit: "Reps" },
   { test: "Seilspringen", athlete: "Silas", category: "coordination", result: 51, unit: "Reps" },
-  
+
   // Strength (Kraft) tests
   { test: "Standweitsprung", athlete: "Ø", category: "strength", result: 163, unit: "cm" },
   { test: "Standweitsprung", athlete: "Arvid", category: "strength", result: 201, unit: "cm" },
@@ -77,8 +77,30 @@ export const athleteData: AthleteResult[] = [
   { test: "Standweitsprung", athlete: "Orestis", category: "strength", result: 161, unit: "cm" },
   { test: "Standweitsprung", athlete: "Paul", category: "strength", result: 176, unit: "cm" },
   { test: "Standweitsprung", athlete: "Silas", category: "strength", result: 149, unit: "cm" },
-  
+
   // Endurance (Ausdauer) tests
   { test: "800m Lauf", athlete: "Finley", category: "endurance", result: 198, unit: "s" },
   { test: "800m Lauf", athlete: "Erik", category: "endurance", result: 186, unit: "s" }
+];
+
+export interface AthleteParticipation {
+  athlete: string;
+  participation: number;
+}
+
+export const participationData: AthleteParticipation[] = [
+  { athlete: "Levi", participation: 91 },
+  { athlete: "Silas", participation: 87 },
+  { athlete: "August", participation: 87 },
+  { athlete: "Lasse", participation: 89 },
+  { athlete: "Finley", participation: 86 },
+  { athlete: "Erik", participation: 86 },
+  { athlete: "Carl", participation: 82 },
+  { athlete: "Lion", participation: 75 },
+  { athlete: "Nicklas", participation: 89 },
+  { athlete: "Orestis", participation: 87 },
+  { athlete: "Paul", participation: 84 },
+  { athlete: "Iraklis", participation: 83 },
+  { athlete: "Carl.J", participation: 79 },
+  { athlete: "Arvid", participation: 86 }
 ];
