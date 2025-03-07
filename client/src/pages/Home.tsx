@@ -1,17 +1,14 @@
 import { useState } from 'react';
-import { Activity, Search, Filter } from 'lucide-react';
+import { Activity, Search } from 'lucide-react';
 import { athleteData, categories } from '../data';
 import CategoryFilter from '@/components/CategoryFilter';
 import TestCard from '@/components/TestCard';
-import PerformanceChart from '@/components/PerformanceChart';
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedAthlete, setSelectedAthlete] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   const uniqueTests = Array.from(new Set(athleteData.map(result => result.test)));
-  const uniqueAthletes = Array.from(new Set(athleteData.map(result => result.athlete)));
 
   const filteredTests = uniqueTests.filter(test => {
     const matchesSearch = test.toLowerCase().includes(searchTerm.toLowerCase());
@@ -27,7 +24,7 @@ export default function Home() {
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <Activity className="h-8 w-8 text-primary" />
-                <h1 className="ml-2 text-xl font-bold text-gray-900">Athlete Stats</h1>
+                <h1 className="ml-2 text-xl font-bold text-gray-900">Performance Overview</h1>
               </div>
               <CategoryFilter
                 categories={categories}
@@ -36,30 +33,15 @@ export default function Home() {
               />
             </div>
 
-            <div className="flex gap-2">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search tests..."
-                  className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-              <div className="relative">
-                <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <select
-                  className="pl-9 pr-8 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-white"
-                  value={selectedAthlete}
-                  onChange={(e) => setSelectedAthlete(e.target.value)}
-                >
-                  <option value="">All Athletes</option>
-                  {uniqueAthletes.sort().map(athlete => (
-                    <option key={athlete} value={athlete}>{athlete}</option>
-                  ))}
-                </select>
-              </div>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search tests..."
+                className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
           </div>
         </div>
@@ -72,19 +54,10 @@ export default function Home() {
               key={test}
               title={test}
               results={athleteData.filter(result => result.test === test)}
-              selectedAthlete={selectedAthlete}
+              selectedAthlete=""
             />
           ))}
         </div>
-
-        {selectedAthlete && (
-          <div className="mt-6">
-            <PerformanceChart 
-              data={athleteData}
-              selectedAthlete={selectedAthlete} 
-            />
-          </div>
-        )}
       </main>
     </div>
   );
