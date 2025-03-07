@@ -1,7 +1,8 @@
 import { AthleteResult } from '../data';
 import PerformanceIcon from './PerformanceIcon';
-import { Timer, Activity, Trophy } from 'lucide-react';
+import { Timer, Activity, Trophy, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 interface TestCardProps {
   title: string;
@@ -10,12 +11,15 @@ interface TestCardProps {
 }
 
 export default function TestCard({ title, results, selectedAthlete }: TestCardProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const sortedResults = [...results].sort((a, b) => {
     return a.unit === 's' ? a.result - b.result : b.result - a.result;
   });
 
   const bestResult = sortedResults[0];
   const average = results.reduce((acc, curr) => acc + curr.result, 0) / results.length;
+  const displayResults = isExpanded ? sortedResults : sortedResults.slice(0, 5);
 
   const getIcon = (unit: string) => {
     switch (unit) {
@@ -36,7 +40,7 @@ export default function TestCard({ title, results, selectedAthlete }: TestCardPr
       </div>
 
       <div className="space-y-2">
-        {sortedResults.slice(0, 5).map((result, index) => (
+        {displayResults.map((result, index) => (
           <div 
             key={result.athlete}
             className={cn(
@@ -71,6 +75,23 @@ export default function TestCard({ title, results, selectedAthlete }: TestCardPr
           </div>
         ))}
       </div>
+
+      {results.length > 5 && (
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="mt-3 w-full flex items-center justify-center gap-1 text-sm text-gray-500 hover:text-gray-700 transition-colors pt-3 border-t border-gray-100"
+        >
+          {isExpanded ? (
+            <>
+              Show Less <ChevronUp className="h-4 w-4" />
+            </>
+          ) : (
+            <>
+              Show All ({results.length}) <ChevronDown className="h-4 w-4" />
+            </>
+          )}
+        </button>
+      )}
 
       <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between text-sm text-gray-500">
         <span>Average</span>

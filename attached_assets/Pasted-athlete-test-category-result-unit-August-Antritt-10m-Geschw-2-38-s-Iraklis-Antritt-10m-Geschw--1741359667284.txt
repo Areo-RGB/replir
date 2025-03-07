@@ -1,0 +1,113 @@
+athlete	test	category	result	unit
+August	Antritt (10m)	Geschw.	2.38	s
+Iraklis	Antritt (10m)	Geschw.	2.16	s
+Erik	Antritt (10m)	Geschw.	2.21	s
+Finley	Antritt (10m)	Geschw.	1.96	s
+Levi	Antritt (10m)	Geschw.	2.14	s
+Orestis	Antritt (10m)	Geschw.	2.27	s
+Paul	Antritt (10m)	Geschw.	2.11	s
+Lasse	Antritt (10m)	Geschw.	2.13	s
+Lion	Antritt (10m)	Geschw.	2.09	s
+Nicklas	Antritt (10m)	Geschw.	2.13	s
+CJ	Antritt (10m)	Geschw.	2.12	s
+August	Schnelligkeit (20m)	Geschw.	4.13	s
+Iraklis	Schnelligkeit (20m)	Geschw.	3.66	s
+Erik	Schnelligkeit (20m)	Geschw.	3.82	s
+Finley	Schnelligkeit (20m)	Geschw.	3.45	s
+Levi	Schnelligkeit (20m)	Geschw.	3.89	s
+Orestis	Schnelligkeit (20m)	Geschw.	3.88	s
+Paul	Schnelligkeit (20m)	Geschw.	3.68	s
+Lasse	Schnelligkeit (20m)	Geschw.	3.84	s
+Lion	Schnelligkeit (20m)	Geschw.	3.74	s
+Nicklas	Schnelligkeit (20m)	Geschw.	3.7	s
+CJ	Schnelligkeit (20m)	Geschw.	3.62	s
+Finley	50m Sprint	Geschw.	8.86	s
+Silas	50m Sprint	Geschw.	9.12	s
+Nicklas	50m Sprint	Geschw.	9.17	s
+Orestis	50m Sprint	Geschw.	9.17	s
+Levi	50m Sprint	Geschw.	9.24	s
+Paul	50m Sprint	Geschw.	9.3	s
+Lasse	50m Sprint	Geschw.	9.32	s
+Iraklis	50m Sprint	Geschw.	9.51	s
+Lion	50m Sprint	Geschw.	9.6	s
+August	50m Sprint	Geschw.	10.25	s
+Carlito	50m Sprint	Geschw.	10.49	s
+Arvid	Seilspringen	Koordination	32	Reps
+Carl	Seilspringen	Koordination	10	Reps
+CJ	Seilspringen	Koordination	31	Reps
+Erik	Seilspringen	Koordination	121	Reps
+Finley	Seilspringen	Koordination	82	Reps
+Jakob	Seilspringen	Koordination	21	Reps
+Lasse	Seilspringen	Koordination	30	Reps
+Levi	Seilspringen	Koordination	22	Reps
+Lion	Seilspringen	Koordination	66	Reps
+Silas	Seilspringen	Koordination	51	Reps
+Ø	Standweitsprung	KPI	163	cm
+Arvid	Standweitsprung	Kraft	201	cm
+Carl	Standweitsprung	Kraft	151	cm
+CJ	Standweitsprung	Kraft	198	cm
+Erik	Standweitsprung	Kraft	143	cm
+Finley	Standweitsprung	Kraft	169	cm
+Iraklis	Standweitsprung	Kraft	146	cm
+Jakob	Standweitsprung	Kraft	161	cm
+Lasse	Standweitsprung	Kraft	162	cm
+Levi	Standweitsprung	Kraft	152	cm
+Lion	Standweitsprung	Kraft	182	cm
+Nicklas	Standweitsprung	Kraft	124	cm
+Orestis	Standweitsprung	Kraft	161	cm
+Paul	Standweitsprung	Kraft	176	cm
+Silas	Standweitsprung	Kraft	149	cm
+Finley	800m Lauf	Ausdauer	198	s
+Erik	800m Lauf	Ausdauer	186	s
+August	Antritt (10m)			s
+August	50m Sprint			s
+August	Schnelligkeit (20m)			s
+CJ	Antritt (10m)			s
+CJ	50m Sprint			Reps
+CJ	Schnelligkeit (20m)			s
+CJ	Standweitsprung			cm
+Erik	800m Lauf			s
+Erik	Antritt (10m)			s
+Erik	Schnelligkeit (20m)			s
+Erik	Seilspringen			Reps
+Erik	Standweitsprung			cm
+Finley	50m Sprint			s
+Finley	800m Lauf			s
+Finley	Antritt (10m)			s
+Finley	Schnelligkeit (20m)			s
+Finley	Seilspringen			Reps
+Finley	Standweitsprung			cm
+Iraklis	50m Sprint			s
+Iraklis	Antritt (10m)			s
+Iraklis	Schnelligkeit (20m)			s
+Iraklis	Standweitsprung			cm
+Lasse	50m Sprint			s
+Lasse	Antritt (10m)			s
+Lasse	Schnelligkeit (20m)			s
+Lasse	Seilspringen			Reps
+Lasse	Standweitsprung			cm
+Levi	50m Sprint			s
+Levi	Antritt (10m)			s
+Levi	Schnelligkeit (20m)			s
+Levi	Seilspringen			Reps
+Levi	Standweitsprung			cm
+Lion	50m Sprint			s
+Lion	Antritt (10m)			s
+Lion	Schnelligkeit (20m)			s
+Lion	Seilspringen			Reps
+Lion	Standweitsprung			cm
+Nicklas	50m Sprint			s
+Nicklas	Antritt (10m)			s
+Nicklas	Schnelligkeit (20m)			s
+Nicklas	Standweitsprung			cm
+Orestis	50m Sprint			s
+Orestis	Antritt (10m)			s
+Orestis	Schnelligkeit (20m)			s
+Orestis	Standweitsprung			cm
+Paul	50m Sprint			s
+Paul	Antritt (10m)			s
+Paul	Schnelligkeit (20m)			s
+Paul	Standweitsprung			cm
+Silas	50m Sprint			s
+Silas	Seilspringen			Reps
+Silas	Standweitsprung			cm
