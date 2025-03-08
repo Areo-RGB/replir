@@ -88,16 +88,19 @@ export default function NormativeDataView({
     });
 
     return filteredData.map(testData => {
-      const testName = testData.test.replace(' DMT', '');
+      const testName = datasetType === 'Motorik' 
+        ? testData.test.replace(' DMT', '') 
+        : testData.test;
+
       const athleteResult = athleteResults.find(
-        r => (r.test === testName || r.test === testData.test) && r.athlete === selectedAthlete
+        r => r.test === testName && r.athlete === selectedAthlete
       );
 
       const percentile = athleteResult 
         ? getPercentileForValue(testData.values, athleteResult.result, testData.lowerIsBetter)
         : null;
 
-      const rating = datasetType === 'Leistung' && percentile !== null 
+      const rating = percentile !== null 
         ? getRatingForPercentile(testData.ratings, percentile)
         : '';
 
@@ -112,12 +115,22 @@ export default function NormativeDataView({
   };
 
   const renderChart = (testData: NormativeData) => {
-    const testName = testData.test.replace(' DMT', '');
+    const testName = datasetType === 'Motorik' 
+      ? testData.test.replace(' DMT', '') 
+      : testData.test;
+
     const athleteResult = athleteResults.find(
-      r => (r.test === testName || r.test === testData.test) && r.athlete === selectedAthlete
+      r => r.test === testName && r.athlete === selectedAthlete
     );
 
     const percentiles = Array.from({ length: 11 }, (_, i) => i * 10);
+    const sortedValues = [...testData.values].sort((a, b) => a - b);
+
+    // Calculate values for each percentile
+    const normativeValues = percentiles.map(p => {
+      const index = Math.floor((p / 100) * (sortedValues.length - 1));
+      return sortedValues[index];
+    });
 
     const options = {
       responsive: true,
@@ -160,7 +173,7 @@ export default function NormativeDataView({
       datasets: [
         {
           label: 'Normative Range',
-          data: testData.values,
+          data: normativeValues,
           borderColor: 'rgb(99, 102, 241)',
           backgroundColor: 'rgba(99, 102, 241, 0.2)',
           tension: 0.4
@@ -187,9 +200,12 @@ export default function NormativeDataView({
     return !data.test.includes('DMT');
   });
 
-  const currentTest = filteredNormativeData.find(data => 
-    data.test === selectedTest || data.test === `${selectedTest} DMT`
-  );
+  const currentTest = filteredNormativeData.find(data => {
+    if (datasetType === 'Motorik') {
+      return data.test.includes(selectedTest);
+    }
+    return data.test === selectedTest;
+  });
 
   const { options, data } = currentTest ? renderChart(currentTest) : { options: {}, data: { datasets: [] } };
 
