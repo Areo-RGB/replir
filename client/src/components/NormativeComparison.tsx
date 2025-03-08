@@ -34,7 +34,18 @@ export default function NormativeComparison({
   athleteResults, 
   selectedAthlete 
 }: NormativeComparisonProps) {
-  
+
+  const getRatingForPercentile = (ratings: NormativeData['ratings'], percentile: number): string => {
+    const rating = ratings.find(r => percentile >= r.range[0] && percentile <= r.range[1]);
+    return rating?.label || 'nicht bewertet';
+  };
+
+  const getPercentileForValue = (values: number[], value: number): number => {
+    const sortedValues = [...values].sort((a, b) => a - b);
+    const index = sortedValues.findIndex(v => v >= value);
+    return Math.round((index / (sortedValues.length - 1)) * 100);
+  };
+
   const renderNormativeChart = (testData: NormativeData) => {
     const athleteResult = athleteResults.find(
       r => r.test === testData.test && r.athlete === selectedAthlete
@@ -43,6 +54,9 @@ export default function NormativeComparison({
     if (!athleteResult) return null;
 
     const percentiles = Array.from({ length: 11 }, (_, i) => i * 10);
+    const athletePercentile = getPercentileForValue(testData.values, athleteResult.result);
+    const athleteRating = getRatingForPercentile(testData.ratings, athletePercentile);
+
     const options = {
       responsive: true,
       scales: {
@@ -97,18 +111,40 @@ export default function NormativeComparison({
           borderColor: 'rgb(239, 68, 68)',
           backgroundColor: 'rgba(239, 68, 68, 0.5)',
           borderDash: [5, 5],
-          pointStyle: false
+          pointStyle: false as const
         }
       ]
     };
 
+    const getRatingColor = (rating: string): string => {
+      switch (rating) {
+        case 'ausgezeichnet (A)':
+          return 'bg-emerald-500';
+        case 'sehr gut (A)':
+          return 'bg-green-500';
+        case 'gut (A)':
+          return 'bg-blue-500';
+        case 'durchschnittlich (B)':
+          return 'bg-yellow-500';
+        case 'unterdurchschnittlich (C)':
+          return 'bg-red-500';
+        default:
+          return 'bg-gray-500';
+      }
+    };
+
     return (
       <div key={testData.test} className="bg-white rounded-xl shadow-sm p-4 mb-4">
-        <div className="flex items-center gap-2 mb-4">
-          <Trophy className="h-5 w-5 text-yellow-500" />
-          <h3 className="text-lg font-semibold text-gray-900">
-            {testData.test} - Normative Comparison
-          </h3>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Trophy className="h-5 w-5 text-yellow-500" />
+            <h3 className="text-lg font-semibold text-gray-900">
+              {testData.test} - DFB Leistungsdiagnostik
+            </h3>
+          </div>
+          <div className={`px-3 py-1 rounded-full text-white text-sm ${getRatingColor(athleteRating)}`}>
+            {athleteRating}
+          </div>
         </div>
         <div className="h-[300px]">
           <Line options={options} data={data} />
@@ -119,6 +155,9 @@ export default function NormativeComparison({
             <span>Normative Range</span>
             <div className="h-1 w-4 border-t-2 border-red-500 border-dashed"></div>
             <span>Athlete Result ({athleteResult.result} {testData.unit})</span>
+            <span className="ml-auto">
+              Percentile: {athletePercentile}%
+            </span>
           </div>
         </div>
       </div>

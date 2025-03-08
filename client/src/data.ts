@@ -14,6 +14,31 @@ export interface Category {
   description: string;
 }
 
+export interface NormativeData {
+  test: string;
+  values: number[];
+  unit: string;
+  ratings: {
+    range: [number, number];
+    label: string;
+  }[];
+}
+
+export const normativeData: NormativeData[] = [
+  {
+    test: "Schnelligkeit (20m)",
+    values: [4.14, 4.01, 3.93, 3.87, 3.82, 3.78, 3.74, 3.69, 3.64, 3.57, 3.47],
+    unit: "s",
+    ratings: [
+      { range: [0, 30], label: "unterdurchschnittlich (C)" },
+      { range: [31, 70], label: "durchschnittlich (B)" },
+      { range: [71, 80], label: "gut (A)" },
+      { range: [81, 90], label: "sehr gut (A)" },
+      { range: [91, 100], label: "ausgezeichnet (A)" }
+    ]
+  }
+];
+
 export const categories: Category[] = [
   {
     id: "speed",
@@ -283,18 +308,4 @@ export const athleteData: AthleteResult[] = [
     result: 186,
     unit: "s",
   },
-];
-
-export interface NormativeData {
-  test: string;
-  values: number[];
-  unit: string;
-}
-
-export const normativeData: NormativeData[] = [
-  {
-    test: "Schnelligkeit (20m)",
-    values: [4.14, 4.01, 3.93, 3.87, 3.82, 3.78, 3.74, 3.69, 3.64, 3.57, 3.47],
-    unit: "s"
-  }
 ];
