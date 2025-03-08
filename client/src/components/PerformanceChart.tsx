@@ -10,13 +10,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { AthleteResult, categories } from '../data';
-import { 
-  Zap, 
-  Timer, 
-  Dumbbell, 
-  MoveDiagonal,
-  Users
-} from 'lucide-react';
+import { LucideIcon, Zap, Timer, Dumbbell, MoveDiagonal } from 'lucide-react';
 
 ChartJS.register(
   CategoryScale,
@@ -32,7 +26,7 @@ interface PerformanceChartProps {
   selectedAthlete: string;
 }
 
-const categoryIcons: Record<string, React.ComponentType> = {
+const categoryIcons: Record<string, LucideIcon> = {
   'speed': Zap,
   'endurance': Timer,
   'strength': Dumbbell,
@@ -50,7 +44,7 @@ export default function PerformanceChart({ data, selectedAthlete }: PerformanceC
 
     uniqueTests.forEach(test => {
       const testResults = categoryTests.filter(r => r.test === test);
-      const avgResult = testResults.reduce((acc, curr) => acc + curr.result, 0) / testResults.length;
+      const avgResult = testResults.reduce((acc, r) => acc + r.result, 0) / testResults.length;
       const athleteResult = testResults.find(r => r.athlete === selectedAthlete);
 
       if (athleteResult) {
@@ -149,7 +143,7 @@ export default function PerformanceChart({ data, selectedAthlete }: PerformanceC
               key={category.id}
               className="flex items-center gap-2 p-3 rounded-lg bg-gray-50"
             >
-              <Icon className="h-5 w-5 text-gray-600" />
+              {Icon && <Icon className="h-5 w-5 text-gray-600" />}
               <div>
                 <div className="text-sm font-medium text-gray-900">
                   {category.name}
