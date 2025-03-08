@@ -6,43 +6,6 @@ import PerformanceChart from '@/components/PerformanceChart';
 import ResultsTable from '@/components/ResultsTable';
 import NormativeDataView from '@/components/NormativeDataView';
 
-// Calculate z-scores and aggregate performance
-const calculateZScores = () => {
-  const athletes = Array.from(new Set(athleteData.map(result => result.athlete)));
-  const tests = Array.from(new Set(athleteData.map(result => result.test)));
-
-  // Calculate z-scores for each test
-  const testStats = tests.map(test => {
-    const results = athleteData.filter(r => r.test === test);
-    const mean = results.reduce((acc, r) => acc + r.result, 0) / results.length;
-    const stdDev = Math.sqrt(
-      results.reduce((acc, r) => acc + Math.pow(r.result - mean, 2), 0) / results.length
-    );
-    return { test, mean, stdDev };
-  });
-
-  // Calculate aggregate z-scores for each athlete
-  return athletes.map(athlete => {
-    let totalZScore = 0;
-    let testCount = 0;
-
-    testStats.forEach(({ test, mean, stdDev }) => {
-      const result = athleteData.find(r => r.athlete === athlete && r.test === test);
-      if (result) {
-        // For time-based results (lower is better), invert the z-score
-        const zScore = (result.result - mean) / stdDev;
-        totalZScore += result.unit === 's' ? -zScore : zScore;
-        testCount++;
-      }
-    });
-
-    return {
-      athlete,
-      averageZScore: testCount > 0 ? totalZScore / testCount : 0
-    };
-  });
-};
-
 export default function PlayerDetails() {
   const [, params] = useRoute('/player/:name');
   const [, setLocation] = useLocation();

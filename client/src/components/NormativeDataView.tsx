@@ -1,14 +1,36 @@
 import { useState } from 'react';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+} from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { NormativeData, AthleteResult } from '../data';
 import { cn } from '@/lib/utils';
 import {
-  Tooltip,
+  Tooltip as UITooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Info } from 'lucide-react';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 interface NormativeDataViewProps {
   normativeData: NormativeData[];
@@ -149,7 +171,7 @@ export default function NormativeDataView({
           borderColor: 'rgb(239, 68, 68)',
           backgroundColor: 'rgba(239, 68, 68, 0.5)',
           borderDash: [5, 5],
-          pointStyle: false as const
+          pointStyle: 'circle'
         }] : [])
       ]
     };
@@ -164,11 +186,11 @@ export default function NormativeDataView({
     }
     return !data.test.includes('DMT');
   });
-  
+
   const currentTest = filteredNormativeData.find(data => 
     data.test === selectedTest || data.test === `${selectedTest} DMT`
   );
-  
+
   const { options, data } = currentTest ? renderChart(currentTest) : { options: {}, data: { datasets: [] } };
 
   return (
@@ -210,14 +232,9 @@ export default function NormativeDataView({
               )}
             </div>
             <div className="flex items-center justify-between">
-              {rating.rating && (
-                <div className={`px-2 py-1 rounded-full text-white text-xs ${getRatingColor(rating.rating)}`}>
-                  {rating.rating}
-                </div>
-              )}
               {rating.percentile !== null && (
                 <TooltipProvider>
-                  <Tooltip>
+                  <UITooltip>
                     <TooltipTrigger asChild>
                       <div className="flex items-center gap-1 text-xs text-gray-500 cursor-help">
                         <Info className="h-3.5 w-3.5" />
@@ -235,7 +252,7 @@ export default function NormativeDataView({
                         )}
                       </p>
                     </TooltipContent>
-                  </Tooltip>
+                  </UITooltip>
                 </TooltipProvider>
               )}
             </div>
