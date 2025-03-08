@@ -11,7 +11,6 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { NormativeData, AthleteResult } from '../data';
-import { Trophy } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 ChartJS.register(
@@ -165,7 +164,11 @@ export default function NormativeComparison({
       <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Trophy className="h-5 w-5 text-yellow-500" />
+            <img 
+              src="/attached_assets/DFB-Logo.svg.png" 
+              alt="DFB Logo" 
+              className="h-6 w-6"
+            />
             <h3 className="text-lg font-semibold text-gray-900">
               DFB Leistungsdiagnostik
             </h3>
@@ -216,9 +219,16 @@ export default function NormativeComparison({
     <div className="space-y-4">
       {/* KPI Section */}
       <div className="bg-white rounded-xl shadow-sm p-4">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Performance Ratings
-        </h3>
+        <div className="flex items-center gap-2 mb-4">
+          <img 
+            src="/attached_assets/DFB-Logo.svg.png" 
+            alt="DFB Logo" 
+            className="h-6 w-6"
+          />
+          <h3 className="text-lg font-semibold text-gray-900">
+            Performance Ratings
+          </h3>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {testRatings.map(({ test, rating, result, unit, percentile }) => (
             <div key={test} className="p-3 rounded-lg bg-gray-50">
