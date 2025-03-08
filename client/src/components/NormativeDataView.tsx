@@ -139,7 +139,13 @@ export default function NormativeDataView({
 
     // Calculate values for each percentile
     const normativeValues = percentiles.map(p => {
-      const index = Math.floor((p / 100) * (sortedValues.length - 1));
+      let index;
+      if (testData.lowerIsBetter) {
+        // For lower is better, reverse the percentile calculation
+        index = Math.floor(((100 - p) / 100) * (sortedValues.length - 1));
+      } else {
+        index = Math.floor((p / 100) * (sortedValues.length - 1));
+      }
       return sortedValues[index];
     });
 
