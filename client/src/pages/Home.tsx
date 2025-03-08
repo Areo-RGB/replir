@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Activity, Search, Medal, TrendingUp } from 'lucide-react';
 import { athleteData } from '../data';
 import TestCard from '@/components/TestCard';
-import { Link } from 'wouter'; // Using wouter instead of next/link
 
 // Calculate z-scores and aggregate performance
 const calculateZScores = () => {
@@ -57,18 +56,9 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <Activity className="h-8 w-8 text-primary" />
-              <h1 className="ml-2 text-xl font-bold text-gray-900">Performance Overview</h1>
-            </div>
-            <Link href="/analysis">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/de/c/c0/DFB-Logo.svg"
-                alt="DFB Logo"
-                className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity"
-              />
-            </Link>
+          <div className="flex items-center">
+            <Activity className="h-8 w-8 text-primary" />
+            <h1 className="ml-2 text-xl font-bold text-gray-900">Performance Overview</h1>
           </div>
           <div className="relative mt-4">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
