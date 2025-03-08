@@ -4,8 +4,7 @@ import { Activity } from 'lucide-react';
 import { athleteData, normativeData } from '../data';
 import PerformanceChart from '@/components/PerformanceChart';
 import ResultsTable from '@/components/ResultsTable';
-import NormativeComparison from '@/components/NormativeComparison';
-import DeutscherMotorikTest from '@/components/DeutscherMotorikTest';
+import NormativeDataView from '@/components/NormativeDataView';
 
 // Calculate z-scores and aggregate performance
 const calculateZScores = () => {
@@ -81,13 +80,8 @@ export default function PlayerDetails() {
       <div className="mb-6">
         <PerformanceChart data={athleteData} selectedAthlete={playerName} />
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <NormativeComparison 
-          normativeData={normativeData}
-          athleteResults={athleteData}
-          selectedAthlete={playerName}
-        />
-        <DeutscherMotorikTest
+      <div className="mb-6">
+        <NormativeDataView
           normativeData={normativeData}
           athleteResults={athleteData}
           selectedAthlete={playerName}
