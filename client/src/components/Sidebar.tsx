@@ -9,18 +9,9 @@ export default function Sidebar() {
 
   return (
     <div className="w-64 bg-white border-r border-gray-200 h-screen fixed left-0 top-0 overflow-y-auto p-4">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2">
-          <User className="h-6 w-6 text-primary" />
-          <h2 className="text-lg font-semibold text-gray-900">Athletes</h2>
-        </div>
-        <Link href="/analysis">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/de/c/c0/DFB-Logo.svg"
-            alt="DFB Logo"
-            className="h-8 w-8 cursor-pointer hover:opacity-80 transition-opacity"
-          />
-        </Link>
+      <div className="flex items-center gap-2 mb-6">
+        <User className="h-6 w-6 text-primary" />
+        <h2 className="text-lg font-semibold text-gray-900">Athletes</h2>
       </div>
 
       <div className="space-y-1">
