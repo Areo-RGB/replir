@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useRoute, useLocation } from 'wouter';
 import { Activity, Medal, TrendingUp } from 'lucide-react';
-import { athleteData } from '../data';
+import { athleteData, normativeData } from '../data';
 import PerformanceChart from '@/components/PerformanceChart';
 import RadarChart from '@/components/RadarChart';
 import ResultsTable from '@/components/ResultsTable';
+import NormativeComparison from '@/components/NormativeComparison';
 
 // Calculate z-scores and aggregate performance
 const calculateZScores = () => {
@@ -120,9 +121,14 @@ export default function PlayerDetails() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         <RadarChart data={athleteData} selectedAthlete={playerName} />
         <PerformanceChart data={athleteData} selectedAthlete={playerName} />
-       
       </div>
-
+      <div className="mb-6">
+        <NormativeComparison 
+          normativeData={normativeData}
+          athleteResults={athleteData}
+          selectedAthlete={playerName}
+        />
+      </div>
       <ResultsTable data={athleteData} selectedAthlete={playerName} />
     </div>
   );
