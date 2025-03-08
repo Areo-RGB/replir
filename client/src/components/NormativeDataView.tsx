@@ -98,12 +98,9 @@ export default function NormativeDataView({
     });
 
     return filteredData.map(testData => {
-      const testName = datasetType === 'Motorik' 
-        ? 'Standweitsprung'
-        : testData.test;
-
+      const testName = testData.test; // Use the full test name from normativeData
       const athleteResult = athleteResults.find(
-        r => r.test === testName && r.athlete === selectedAthlete
+        r => r.test === testName.replace(' DMT', '') && r.athlete === selectedAthlete
       );
 
       const percentile = athleteResult 
@@ -115,7 +112,7 @@ export default function NormativeDataView({
         : '';
 
       return {
-        test: datasetType === 'Motorik' ? testData.test.replace(' DMT', '') : testData.test,
+        test: testData.test.replace(' DMT', ''), // Display without "DMT" for consistency
         rating,
         percentile,
         result: athleteResult?.result,
@@ -125,12 +122,9 @@ export default function NormativeDataView({
   };
 
   const renderChart = (testData: NormativeData) => {
-    const testName = datasetType === 'Motorik' 
-      ? 'Standweitsprung'
-      : testData.test;
-
+    const testName = testData.test; // Use the full test name
     const athleteResult = athleteResults.find(
-      r => r.test === testName && r.athlete === selectedAthlete
+      r => r.test === testName.replace(' DMT', '') && r.athlete === selectedAthlete
     );
 
     const percentiles = Array.from({ length: 11 }, (_, i) => i * 10);

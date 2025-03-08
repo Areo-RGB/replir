@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NormativeData, AthleteResult } from '../data';
 import { cn } from '@/lib/utils';
 import {
@@ -20,16 +20,33 @@ export default function DeutscherMotorikTest({
   athleteResults,
   selectedAthlete
 }: DeutscherMotorikTestProps) {
-  const dmtTest = normativeData.find(test => test.test === "Standweitsprung DMT");
+  // State to manage the selected DMT test
+  const [selectedTest, setSelectedTest] = useState<string>("Standweitsprung DMT");
+
+  // Filter DMT tests from normativeData
+  const dmtTests = normativeData.filter(test => test.test.includes('DMT'));
+  useEffect(() => {
+    // Update selected test if the current one is not available
+    if (!dmtTests.some(test => test.test === selectedTest) && dmtTests.length > 0) {
+      setSelectedTest(dmtTests[0].test);
+    }
+  }, [normativeData, selectedTest]);
+
+  // Find the selected DMT test data
+  const dmtTest = dmtTests.find(test => test.test === selectedTest);
   if (!dmtTest) return null;
 
+  // Find the athlete's result for the selected test
   const athleteResult = athleteResults.find(
-    r => r.test === "Standweitsprung" && r.athlete === selectedAthlete
+    r => r.test === selectedTest.replace(' DMT', '') && r.athlete === selectedAthlete
   );
 
-  const getPercentileForValue = (values: number[], value: number): number => {
+  const getPercentileForValue = (values: number[], value: number, lowerIsBetter: boolean = false): number => {
     const sortedValues = [...values].sort((a, b) => a - b);
     const index = sortedValues.findIndex(v => v >= value);
+    if (lowerIsBetter) {
+      return Math.round(((sortedValues.length - 1 - index) / (sortedValues.length - 1)) * 100);
+    }
     return Math.round((index / (sortedValues.length - 1)) * 100);
   };
 
@@ -56,7 +73,7 @@ export default function DeutscherMotorikTest({
   };
 
   const percentile = athleteResult 
-    ? getPercentileForValue(dmtTest.values, athleteResult.result)
+    ? getPercentileForValue(dmtTest.values, athleteResult.result, dmtTest.lowerIsBetter)
     : null;
 
   const rating = percentile !== null 
@@ -74,11 +91,23 @@ export default function DeutscherMotorikTest({
         <h3 className="text-lg font-semibold text-gray-900">
           Deutscher Motorik Test
         </h3>
+        {/* Dropdown to select DMT test */}
+        <select
+          value={selectedTest}
+          onChange={(e) => setSelectedTest(e.target.value)}
+          className="ml-4 px-3 py-1 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        >
+          {dmtTests.map(test => (
+            <option key={test.test} value={test.test}>
+              {test.test.replace(' DMT', '')}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="p-4 rounded-lg bg-gray-50">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-gray-700">Standweitsprung</span>
+          <span className="text-sm font-medium text-gray-700">{selectedTest.replace(' DMT', '')}</span>
           {athleteResult && (
             <span className="text-sm font-medium text-gray-900 tabular-nums">
               {athleteResult.result} {dmtTest.unit}

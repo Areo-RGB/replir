@@ -115,6 +115,19 @@ export const normativeData: NormativeData[] = [
       { range: [81, 90], label: "sehr gut (A)" },
       { range: [91, 100], label: "ausgezeichnet (A)" }
     ]
+  },
+  {
+    test: "Seitliches Hin- und Herspringen DMT",
+    values: [7.5, 14.0, 15.0, 16.5, 17.0, 17.5, 18.5, 19.0, 19.5, 20.0, 21.0, 21.5, 22.0, 22.5, 23.0, 23.0, 23.5, 23.5, 24.0, 24.5, 24.5, 25.0, 25.5, 25.5, 26.0, 26.5, 26.5, 27.0, 27.0, 27.5, 28.0, 28.0, 28.5, 29.0, 29.0, 29.5, 30.0, 30.0, 30.5, 30.5, 31.0, 32.0, 32.5, 33.0, 33.5, 34.0, 35.0, 35.5, 36.0, 37.0, 38.0, 39.5, 45.5],
+    unit: "jumps",
+    lowerIsBetter: false,
+    ratings: [
+      { range: [0, 30], label: "unterdurchschnittlich (C)" },
+      { range: [31, 70], label: "durchschnittlich (B)" },
+      { range: [71, 80], label: "gut (A)" },
+      { range: [81, 90], label: "sehr gut (A)" },
+      { range: [91, 100], label: "ausgezeichnet (A)" }
+    ]
   }
 ];
 
@@ -139,12 +152,10 @@ export const categories: Category[] = [
     name: "Coordination",
     description: "Tests measuring agility and motor skills",
   },
-  
 ];
 
 export const athleteData: AthleteResult[] = [
   // Speed tests - 10m Sprint
-
   {
     test: "Antritt (10m)",
     athlete: "Erik",
@@ -189,7 +200,6 @@ export const athleteData: AthleteResult[] = [
   },
 
   // Speed tests - 20m Sprint
-
   {
     test: "Schnelligkeit (20m)",
     athlete: "Erik",
@@ -204,7 +214,6 @@ export const athleteData: AthleteResult[] = [
     result: 3.45,
     unit: "s",
   },
-
   {
     test: "Schnelligkeit (20m)",
     athlete: "Paul",
