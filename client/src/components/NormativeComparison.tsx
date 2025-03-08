@@ -40,9 +40,16 @@ export default function NormativeComparison({
     return rating?.label || 'nicht bewertet';
   };
 
-  const getPercentileForValue = (values: number[], value: number): number => {
+  const getPercentileForValue = (values: number[], value: number, unit: string): number => {
     const sortedValues = [...values].sort((a, b) => a - b);
     const index = sortedValues.findIndex(v => v >= value);
+
+    // For time-based metrics (unit 's'), lower is better so reverse the percentile
+    if (unit === 's') {
+      return Math.round(((sortedValues.length - 1 - index) / (sortedValues.length - 1)) * 100);
+    }
+
+    // For other metrics, higher is better
     return Math.round((index / (sortedValues.length - 1)) * 100);
   };
 
@@ -54,7 +61,7 @@ export default function NormativeComparison({
     if (!athleteResult) return null;
 
     const percentiles = Array.from({ length: 11 }, (_, i) => i * 10);
-    const athletePercentile = getPercentileForValue(testData.values, athleteResult.result);
+    const athletePercentile = getPercentileForValue(testData.values, athleteResult.result, testData.unit);
     const athleteRating = getRatingForPercentile(testData.ratings, athletePercentile);
 
     const options = {
