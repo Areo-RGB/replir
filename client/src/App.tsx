@@ -6,11 +6,12 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import PlayerDetails from "@/pages/PlayerDetails";
 import ComparativeAnalysis from "@/pages/ComparativeAnalysis";
-
+import Sidebar from "@/components/Sidebar";
 
 function Router() {
   return (
     <div className="flex min-h-screen bg-gray-50">
+      <Sidebar />
       <div className="fixed top-4 left-4 z-50">
         <Link href="/analysis">
           <img 
@@ -20,7 +21,7 @@ function Router() {
           />
         </Link>
       </div>
-      <div className="flex-1 ml-20">
+      <div className="flex-1 ml-64">
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/player/:name" component={PlayerDetails} />

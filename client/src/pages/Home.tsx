@@ -27,7 +27,6 @@ const calculateZScores = () => {
     testStats.forEach(({ test, mean, stdDev }) => {
       const result = performanceData.find(r => r.athlete === athlete && r.test === test);
       if (result) {
-        // For time-based results (lower is better), invert the z-score
         const zScore = (result.result - mean) / stdDev;
         totalZScore += result.unit === 's' ? -zScore : zScore;
         testCount++;
