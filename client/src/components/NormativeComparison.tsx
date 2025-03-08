@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import {
   Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
+  RadialLinearScale,
   PointElement,
   LineElement,
-  Title,
+  Filler,
   Tooltip,
   Legend,
 } from 'chart.js';
@@ -14,11 +13,10 @@ import { NormativeData, AthleteResult } from '../data';
 import { cn } from '@/lib/utils';
 
 ChartJS.register(
-  CategoryScale,
-  LinearScale,
+  RadialLinearScale,
   PointElement,
   LineElement,
-  Title,
+  Filler,
   Tooltip,
   Legend
 );
@@ -165,7 +163,7 @@ export default function NormativeComparison({
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-6">
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex items-center gap-2 mb-6">
         <img 
           src="https://upload.wikimedia.org/wikipedia/de/c/c0/DFB-Logo.svg" 
           alt="DFB Logo" 
@@ -176,60 +174,58 @@ export default function NormativeComparison({
         </h3>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Chart with Test Selector */}
-        <div className="lg:col-span-2">
-          <div className="mb-4">
-            <select
-              value={selectedTest}
-              onChange={(e) => setSelectedTest(e.target.value)}
-              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            >
-              {normativeData.map(test => (
-                <option key={test.test} value={test.test}>
-                  {test.test}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="h-[400px]">
-            <Line options={options} data={data} />
-          </div>
-          <div className="mt-4 text-sm text-gray-600">
-            <div className="flex items-center gap-2">
-              <div className="h-1 w-4 bg-indigo-500 rounded"></div>
-              <span>Normative Range</span>
-              <div className="h-1 w-4 border-t-2 border-red-500 border-dashed"></div>
-              <span>Athlete Result</span>
+      {/* Performance Ratings */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        {testRatings.map((rating) => (
+          <div key={rating.test} className="p-4 rounded-lg bg-gray-50">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-gray-700">{rating.test}</span>
+              {rating.result !== undefined && (
+                <span className="text-sm font-medium text-gray-900 tabular-nums">
+                  {rating.result} {rating.unit}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center justify-between">
+              <div className={`px-2 py-1 rounded-full text-white text-xs ${getRatingColor(rating.rating)}`}>
+                {rating.rating}
+              </div>
+              {rating.percentile !== null && (
+                <span className="text-xs text-gray-500">
+                  Percentile: {rating.percentile}%
+                </span>
+              )}
             </div>
           </div>
+        ))}
+      </div>
+
+      {/* Chart Section */}
+      <div>
+        <div className="mb-4">
+          <select
+            value={selectedTest}
+            onChange={(e) => setSelectedTest(e.target.value)}
+            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          >
+            {normativeData.map(test => (
+              <option key={test.test} value={test.test}>
+                {test.test}
+              </option>
+            ))}
+          </select>
         </div>
 
-        {/* KPI Cards */}
-        <div className="space-y-4">
-          {testRatings.map((rating) => (
-            <div key={rating.test} className="p-4 rounded-lg bg-gray-50">
-              <h4 className="text-base font-medium text-gray-900 mb-2">
-                {rating.test}
-              </h4>
-              {rating.result !== undefined && (
-                <div className="text-2xl font-bold text-gray-900 mb-2 tabular-nums">
-                  {rating.result} {rating.unit}
-                </div>
-              )}
-              <div className="space-y-2">
-                <div className={`px-3 py-1.5 rounded-full text-white text-sm font-medium text-center ${getRatingColor(rating.rating)}`}>
-                  {rating.rating}
-                </div>
-                {rating.percentile !== null && (
-                  <div className="text-sm text-center text-gray-600">
-                    Percentile: {rating.percentile}%
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
+        <div className="h-[400px]">
+          <Line options={options} data={data} />
+        </div>
+        <div className="mt-4 text-sm text-gray-600">
+          <div className="flex items-center gap-2">
+            <div className="h-1 w-4 bg-indigo-500 rounded"></div>
+            <span>Normative Range</span>
+            <div className="h-1 w-4 border-t-2 border-red-500 border-dashed"></div>
+            <span>Athlete Result</span>
+          </div>
         </div>
       </div>
     </div>
