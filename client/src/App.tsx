@@ -1,4 +1,4 @@
-import { Switch, Route, Link } from "wouter";
+import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -12,15 +12,6 @@ function Router() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
-      <div className="fixed top-4 left-4 z-50">
-        <Link href="/analysis">
-          <img 
-            src="https://upload.wikimedia.org/wikipedia/de/c/c0/DFB-Logo.svg"
-            alt="DFB Logo"
-            className="w-12 h-12 cursor-pointer hover:opacity-80 transition-opacity"
-          />
-        </Link>
-      </div>
       <div className="flex-1 ml-64">
         <Switch>
           <Route path="/" component={Home} />
