@@ -46,13 +46,52 @@ export default function NormativeComparison({
     const sortedValues = [...values].sort((a, b) => a - b);
     const index = sortedValues.findIndex(v => v >= value);
 
-    // For metrics where lower is better (like sprint times), reverse the percentile
     if (lowerIsBetter) {
       return Math.round(((sortedValues.length - 1 - index) / (sortedValues.length - 1)) * 100);
     }
 
-    // For other metrics, higher is better
     return Math.round((index / (sortedValues.length - 1)) * 100);
+  };
+
+  const getRatingColor = (rating: string): string => {
+    switch (rating) {
+      case 'ausgezeichnet (A)':
+        return 'bg-emerald-500';
+      case 'sehr gut (A)':
+        return 'bg-green-500';
+      case 'gut (A)':
+        return 'bg-blue-500';
+      case 'durchschnittlich (B)':
+        return 'bg-yellow-500';
+      case 'unterdurchschnittlich (C)':
+        return 'bg-red-500';
+      default:
+        return 'bg-gray-500';
+    }
+  };
+
+  const getTestRatings = () => {
+    return normativeData.map(testData => {
+      const athleteResult = athleteResults.find(
+        r => r.test === testData.test && r.athlete === selectedAthlete
+      );
+
+      const percentile = athleteResult 
+        ? getPercentileForValue(testData.values, athleteResult.result, testData.lowerIsBetter)
+        : null;
+
+      const rating = percentile !== null 
+        ? getRatingForPercentile(testData.ratings, percentile)
+        : 'nicht bewertet';
+
+      return {
+        test: testData.test,
+        rating,
+        percentile,
+        result: athleteResult?.result,
+        unit: testData.unit
+      };
+    });
   };
 
   const renderNormativeChart = (testData: NormativeData) => {
@@ -64,9 +103,6 @@ export default function NormativeComparison({
     const athletePercentile = athleteResult 
       ? getPercentileForValue(testData.values, athleteResult.result, testData.lowerIsBetter)
       : null;
-    const athleteRating = athletePercentile !== null 
-      ? getRatingForPercentile(testData.ratings, athletePercentile)
-      : 'nicht bewertet';
 
     const options = {
       responsive: true,
@@ -98,9 +134,7 @@ export default function NormativeComparison({
         },
         tooltip: {
           callbacks: {
-            label: (context: any) => {
-              return `${context.parsed.y} ${testData.unit}`;
-            }
+            label: (context: any) => `${context.parsed.y} ${testData.unit}`
           }
         }
       }
@@ -127,36 +161,14 @@ export default function NormativeComparison({
       ]
     };
 
-    const getRatingColor = (rating: string): string => {
-      switch (rating) {
-        case 'ausgezeichnet (A)':
-          return 'bg-emerald-500';
-        case 'sehr gut (A)':
-          return 'bg-green-500';
-        case 'gut (A)':
-          return 'bg-blue-500';
-        case 'durchschnittlich (B)':
-          return 'bg-yellow-500';
-        case 'unterdurchschnittlich (C)':
-          return 'bg-red-500';
-        default:
-          return 'bg-gray-500';
-      }
-    };
-
     return (
-      <div key={testData.test} className="bg-white rounded-xl shadow-sm p-4 mb-4">
+      <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Trophy className="h-5 w-5 text-yellow-500" />
             <h3 className="text-lg font-semibold text-gray-900">
-              {testData.test} - DFB Leistungsdiagnostik
+              DFB Leistungsdiagnostik
             </h3>
-          </div>
-          <div className={`px-3 py-1 rounded-full text-white text-sm ${getRatingColor(athleteRating)}`}>
-            {athleteRating === 'ausgezeichnet (A)' 
-              ? `${testData.test}: ${athleteRating}`
-              : athleteRating}
           </div>
         </div>
 
@@ -197,10 +209,45 @@ export default function NormativeComparison({
     );
   };
 
-  const currentTestData = normativeData.find(data => data.test === selectedTest);
+  // Render KPI section with all test ratings
+  const testRatings = getTestRatings();
+
   return (
     <div className="space-y-4">
-      {currentTestData && renderNormativeChart(currentTestData)}
+      {/* KPI Section */}
+      <div className="bg-white rounded-xl shadow-sm p-4">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Performance Ratings
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {testRatings.map(({ test, rating, result, unit, percentile }) => (
+            <div key={test} className="p-3 rounded-lg bg-gray-50">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-700">{test}</span>
+                {result !== undefined && (
+                  <span className="text-sm text-gray-500">
+                    {result} {unit}
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center justify-between">
+                <div className={`px-2 py-1 rounded-full text-white text-xs ${getRatingColor(rating)}`}>
+                  {rating}
+                </div>
+                {percentile !== null && (
+                  <span className="text-xs text-gray-500">
+                    Percentile: {percentile}%
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Chart Section */}
+      {normativeData.find(data => data.test === selectedTest) && 
+        renderNormativeChart(normativeData.find(data => data.test === selectedTest)!)}
     </div>
   );
 }
