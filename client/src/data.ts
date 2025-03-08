@@ -103,6 +103,18 @@ export const normativeData: NormativeData[] = [
       { range: [81, 90], label: "sehr gut (A)" },
       { range: [91, 100], label: "ausgezeichnet (A)" }
     ]
+  },
+  {
+    test: "Standweitsprung DMT",
+    values: [76, 99, 104, 108, 111, 113, 115, 118, 120, 122, 125, 126, 129, 131, 132, 133, 134, 135, 136, 138, 139, 140, 141, 142, 143, 145, 146, 147, 148, 149, 150, 151, 153, 154, 155, 156, 157, 158, 160, 161, 162, 165, 167, 169, 171, 174, 176, 178, 181, 183, 188, 192, 216],
+    unit: "cm",
+    ratings: [
+      { range: [0, 30], label: "unterdurchschnittlich (C)" },
+      { range: [31, 70], label: "durchschnittlich (B)" },
+      { range: [71, 80], label: "gut (A)" },
+      { range: [81, 90], label: "sehr gut (A)" },
+      { range: [91, 100], label: "ausgezeichnet (A)" }
+    ]
   }
 ];
 
@@ -127,6 +139,11 @@ export const categories: Category[] = [
     name: "Coordination",
     description: "Tests measuring agility and motor skills",
   },
+  {
+    id: "deutscher_motorik_test",
+    name: "Deutscher Motorik Test",
+    description: "Standardized motor performance test battery",
+  }
 ];
 
 export const athleteData: AthleteResult[] = [
