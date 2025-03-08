@@ -164,7 +164,7 @@ export default function NormativeComparison({
   const { options, data } = renderChart(normativeData.find(data => data.test === selectedTest)!);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
+    <div className="bg-white rounded-xl shadow-sm p-6">
       <div className="flex items-center gap-2 mb-4">
         <img 
           src="https://upload.wikimedia.org/wikipedia/de/c/c0/DFB-Logo.svg" 
@@ -177,7 +177,7 @@ export default function NormativeComparison({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Chart */}
+        {/* Chart with Test Selector */}
         <div className="lg:col-span-2">
           <div className="mb-4">
             <select
@@ -193,7 +193,7 @@ export default function NormativeComparison({
             </select>
           </div>
 
-          <div className="h-[300px]">
+          <div className="h-[400px]">
             <Line options={options} data={data} />
           </div>
           <div className="mt-4 text-sm text-gray-600">
@@ -214,7 +214,7 @@ export default function NormativeComparison({
                 {rating.test}
               </h4>
               {rating.result !== undefined && (
-                <div className="text-2xl font-bold text-gray-900 mb-2">
+                <div className="text-2xl font-bold text-gray-900 mb-2 tabular-nums">
                   {rating.result} {rating.unit}
                 </div>
               )}
