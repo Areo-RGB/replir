@@ -37,7 +37,6 @@ const categoryIcons: Record<string, React.ComponentType> = {
   'endurance': Timer,
   'strength': Dumbbell,
   'coordination': MoveDiagonal,
-  'participation': Users
 };
 
 export default function PerformanceChart({ data, selectedAthlete }: PerformanceChartProps) {

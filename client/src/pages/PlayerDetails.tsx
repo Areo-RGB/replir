@@ -5,7 +5,6 @@ import { athleteData } from '../data';
 import PerformanceChart from '@/components/PerformanceChart';
 import RadarChart from '@/components/RadarChart';
 import ResultsTable from '@/components/ResultsTable';
-import ParticipationPieChart from '@/components/ParticipationPieChart';
 
 // Calculate z-scores and aggregate performance
 const calculateZScores = () => {
@@ -121,7 +120,7 @@ export default function PlayerDetails() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         <RadarChart data={athleteData} selectedAthlete={playerName} />
         <PerformanceChart data={athleteData} selectedAthlete={playerName} />
-        <ParticipationPieChart participationRate={participationRate} />
+       
       </div>
 
       <ResultsTable data={athleteData} selectedAthlete={playerName} />
