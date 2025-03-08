@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -43,8 +43,19 @@ export default function NormativeDataView({
   athleteResults, 
   selectedAthlete 
 }: NormativeDataViewProps) {
-  const [selectedTest, setSelectedTest] = useState(normativeData[0]?.test);
   const [datasetType, setDatasetType] = useState<'Leistung' | 'Motorik'>('Leistung');
+  const [selectedTest, setSelectedTest] = useState('');
+
+  // Update selected test when switching between views
+  useEffect(() => {
+    const filteredData = normativeData.filter(data => {
+      if (datasetType === 'Motorik') {
+        return data.test.includes('DMT');
+      }
+      return !data.test.includes('DMT');
+    });
+    setSelectedTest(filteredData[0]?.test || '');
+  }, [datasetType, normativeData]);
 
   const getPercentileForValue = (values: number[], value: number, lowerIsBetter: boolean = false): number => {
     const sortedValues = [...values].sort((a, b) => a - b);
@@ -89,7 +100,7 @@ export default function NormativeDataView({
 
     return filteredData.map(testData => {
       const testName = datasetType === 'Motorik' 
-        ? testData.test.replace(' DMT', '') 
+        ? 'Standweitsprung'  // For Motorik test, we always use Standweitsprung
         : testData.test;
 
       const athleteResult = athleteResults.find(
@@ -105,7 +116,7 @@ export default function NormativeDataView({
         : '';
 
       return {
-        test: testName,
+        test: datasetType === 'Motorik' ? testData.test.replace(' DMT', '') : testData.test,
         rating,
         percentile,
         result: athleteResult?.result,
@@ -116,7 +127,7 @@ export default function NormativeDataView({
 
   const renderChart = (testData: NormativeData) => {
     const testName = datasetType === 'Motorik' 
-      ? testData.test.replace(' DMT', '') 
+      ? 'Standweitsprung'
       : testData.test;
 
     const athleteResult = athleteResults.find(
@@ -200,13 +211,7 @@ export default function NormativeDataView({
     return !data.test.includes('DMT');
   });
 
-  const currentTest = filteredNormativeData.find(data => {
-    if (datasetType === 'Motorik') {
-      return data.test.includes(selectedTest);
-    }
-    return data.test === selectedTest;
-  });
-
+  const currentTest = filteredNormativeData.find(data => data.test === selectedTest);
   const { options, data } = currentTest ? renderChart(currentTest) : { options: {}, data: { datasets: [] } };
 
   return (
