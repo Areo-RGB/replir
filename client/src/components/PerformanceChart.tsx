@@ -36,18 +36,13 @@ const categoryIcons: Record<string, LucideIcon> = {
 
 export default function PerformanceChart({ data, selectedAthlete }: PerformanceChartProps) {
   // Calculate performance percentage for each category
-  const calculateCategoryPerformance = (category: string): number => {
-    // Filter tests for this category, excluding tests that should be in DMT
-    const categoryTests = data.filter(result => {
-      if (category === 'deutscher_motorik_test') {
-        return result.category === category;
-      }
-      // For other categories, exclude Standweitsprung test
-      return result.category === category && result.test !== 'Standweitsprung';
-    });
+  const calculateCategoryPerformance = (categoryId: string): number => {
+    // Get tests for this category
+    const categoryTests = data.filter(result => result.category === categoryId);
+
+    if (categoryTests.length === 0) return 0;
 
     const uniqueTests = Array.from(new Set(categoryTests.map(result => result.test)));
-
     let totalPerformance = 0;
     let testCount = 0;
 
@@ -71,9 +66,7 @@ export default function PerformanceChart({ data, selectedAthlete }: PerformanceC
     return testCount > 0 ? totalPerformance / testCount : 0;
   };
 
-  // Calculate performance data for each category
   const categoryPerformances = categories
-    .filter(category => category.id !== 'participation')
     .map(category => ({
       category: category.name,
       performance: calculateCategoryPerformance(category.id)
@@ -143,7 +136,7 @@ export default function PerformanceChart({ data, selectedAthlete }: PerformanceC
       </div>
 
       <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {categories.filter(category => category.id !== 'participation').map(category => {
+        {categories.map(category => {
           const Icon = categoryIcons[category.id];
           const performance = categoryPerformances.find(p => p.category === category.name)?.performance ?? 0;
 
