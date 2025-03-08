@@ -46,7 +46,6 @@ export default function NormativeDataView({
   const [datasetType, setDatasetType] = useState<'Leistung' | 'Motorik'>('Leistung');
   const [selectedTest, setSelectedTest] = useState('');
 
-  // Update selected test when switching between views
   useEffect(() => {
     const filteredData = normativeData.filter(data => {
       if (datasetType === 'Motorik') {
@@ -100,7 +99,7 @@ export default function NormativeDataView({
 
     return filteredData.map(testData => {
       const testName = datasetType === 'Motorik' 
-        ? 'Standweitsprung'  // For Motorik test, we always use Standweitsprung
+        ? 'Standweitsprung'
         : testData.test;
 
       const athleteResult = athleteResults.find(
@@ -137,11 +136,9 @@ export default function NormativeDataView({
     const percentiles = Array.from({ length: 11 }, (_, i) => i * 10);
     const sortedValues = [...testData.values].sort((a, b) => a - b);
 
-    // Calculate values for each percentile
     const normativeValues = percentiles.map(p => {
       let index;
       if (testData.lowerIsBetter) {
-        // For lower is better, reverse the percentile calculation
         index = Math.floor(((100 - p) / 100) * (sortedValues.length - 1));
       } else {
         index = Math.floor((p / 100) * (sortedValues.length - 1));
@@ -222,7 +219,7 @@ export default function NormativeDataView({
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-6">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center gap-4 mb-6">
         <div className="flex items-center gap-2">
           <img 
             src={datasetType === 'Motorik' 
