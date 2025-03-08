@@ -160,65 +160,11 @@ export default function NormativeComparison({
       ]
     };
 
+    const testRatings = getTestRatings();
+    const currentRating = testRatings.find(r => r.test === testData.test);
+
     return (
       <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <img 
-              src="https://upload.wikimedia.org/wikipedia/de/c/c0/DFB-Logo.svg" 
-              alt="DFB Logo" 
-              className="h-6 w-6"
-            />
-            <h3 className="text-lg font-semibold text-gray-900">
-              DFB Leistungsdiagnostik
-            </h3>
-          </div>
-        </div>
-
-        {/* Test Selector */}
-        <div className="mb-4">
-          <select
-            value={selectedTest}
-            onChange={(e) => setSelectedTest(e.target.value)}
-            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-          >
-            {normativeData.map(test => (
-              <option key={test.test} value={test.test}>
-                {test.test}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="h-[300px]">
-          <Line options={options} data={data} />
-        </div>
-        <div className="mt-4 text-sm text-gray-600">
-          <div className="flex items-center gap-2">
-            <div className="h-1 w-4 bg-indigo-500 rounded"></div>
-            <span>Normative Range</span>
-            {athleteResult && (
-              <>
-                <div className="h-1 w-4 border-t-2 border-red-500 border-dashed"></div>
-                <span>Athlete Result ({athleteResult.result} {testData.unit})</span>
-                <span className="ml-auto">
-                  Percentile: {athletePercentile}%
-                </span>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  // Render KPI section with all test ratings
-  const testRatings = getTestRatings();
-
-  return (
-    <div className="space-y-4">
-      {/* KPI Section */}
-      <div className="bg-white rounded-xl shadow-sm p-4">
         <div className="flex items-center gap-2 mb-4">
           <img 
             src="https://upload.wikimedia.org/wikipedia/de/c/c0/DFB-Logo.svg" 
@@ -226,36 +172,74 @@ export default function NormativeComparison({
             className="h-6 w-6"
           />
           <h3 className="text-lg font-semibold text-gray-900">
-            Performance Ratings
+            Übersicht
           </h3>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {testRatings.map(({ test, rating, result, unit, percentile }) => (
-            <div key={test} className="p-3 rounded-lg bg-gray-50">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-700">{test}</span>
-                {result !== undefined && (
-                  <span className="text-sm text-gray-500">
-                    {result} {unit}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center justify-between">
-                <div className={`px-2 py-1 rounded-full text-white text-xs ${getRatingColor(rating)}`}>
-                  {rating}
-                </div>
-                {percentile !== null && (
-                  <span className="text-xs text-gray-500">
-                    Percentile: {percentile}%
-                  </span>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Chart */}
+          <div>
+            <div className="mb-4">
+              <select
+                value={selectedTest}
+                onChange={(e) => setSelectedTest(e.target.value)}
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              >
+                {normativeData.map(test => (
+                  <option key={test.test} value={test.test}>
+                    {test.test}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="h-[300px]">
+              <Line options={options} data={data} />
+            </div>
+            <div className="mt-4 text-sm text-gray-600">
+              <div className="flex items-center gap-2">
+                <div className="h-1 w-4 bg-indigo-500 rounded"></div>
+                <span>Normative Range</span>
+                {athleteResult && (
+                  <>
+                    <div className="h-1 w-4 border-t-2 border-red-500 border-dashed"></div>
+                    <span>Athlete Result ({athleteResult.result} {testData.unit})</span>
+                  </>
                 )}
               </div>
             </div>
-          ))}
+          </div>
+
+          {/* KPI Card */}
+          {currentRating && (
+            <div className="p-6 rounded-lg bg-gray-50 flex flex-col justify-center">
+              <h4 className="text-lg font-medium text-gray-900 mb-4">
+                {currentRating.test}
+              </h4>
+              {currentRating.result !== undefined && (
+                <div className="text-3xl font-bold text-gray-900 mb-4">
+                  {currentRating.result} {currentRating.unit}
+                </div>
+              )}
+              <div className="space-y-4">
+                <div className={`px-4 py-2 rounded-full text-white text-sm font-medium text-center ${getRatingColor(currentRating.rating)}`}>
+                  {currentRating.rating}
+                </div>
+                {currentRating.percentile !== null && (
+                  <div className="text-lg text-center text-gray-600">
+                    Percentile: {currentRating.percentile}%
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
+    );
+  };
 
-      {/* Chart Section */}
+  return (
+    <div className="space-y-4">
       {normativeData.find(data => data.test === selectedTest) && 
         renderNormativeChart(normativeData.find(data => data.test === selectedTest)!)}
     </div>
