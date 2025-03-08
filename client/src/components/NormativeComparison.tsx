@@ -11,6 +11,13 @@ import {
 import { Line } from 'react-chartjs-2';
 import { NormativeData, AthleteResult } from '../data';
 import { cn } from '@/lib/utils';
+import {
+  Tooltip as UITooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Info } from 'lucide-react';
 
 ChartJS.register(
   RadialLinearScale,
@@ -138,7 +145,7 @@ export default function NormativeComparison({
       labels: percentiles,
       datasets: [
         {
-          label: 'Normative Data',
+          label: 'Normative Range',
           data: testData.values,
           borderColor: 'rgb(99, 102, 241)',
           backgroundColor: 'rgba(99, 102, 241, 0.2)',
@@ -191,9 +198,27 @@ export default function NormativeComparison({
                 {rating.rating}
               </div>
               {rating.percentile !== null && (
-                <span className="text-xs text-gray-500">
-                  Percentile: {rating.percentile}%
-                </span>
+                <TooltipProvider>
+                  <UITooltip>
+                    <TooltipTrigger asChild>
+                      <div className="flex items-center gap-1 text-xs text-gray-500 cursor-help">
+                        <Info className="h-3.5 w-3.5" />
+                        Percentile: {rating.percentile}%
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="text-sm">
+                        {rating.percentile === 100 ? (
+                          "Besser als alle Vergleichswerte"
+                        ) : rating.percentile === 0 ? (
+                          "Unter allen Vergleichswerten"
+                        ) : (
+                          `Besser als ${rating.percentile}% der Vergleichswerte`
+                        )}
+                      </p>
+                    </TooltipContent>
+                  </UITooltip>
+                </TooltipProvider>
               )}
             </div>
           </div>
