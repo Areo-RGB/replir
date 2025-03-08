@@ -8,12 +8,13 @@ import {
   Tooltip,
   ResponsiveContainer,
   Scatter,
+  ScatterChart,
 } from 'recharts';
 import { athleteData, normativeData } from '../data';
 
 const formatData = (testName: string) => {
   const testData = normativeData.find(n => n.test === testName);
-  if (!testData) return [];
+  if (!testData) return { areaData: [], scatterData: [] };
 
   // Sort values to get min/max range
   const sortedValues = [...testData.values].sort((a, b) => a - b);
@@ -25,36 +26,37 @@ const formatData = (testName: string) => {
   const athleteResults = athleteData
     .filter(r => r.test === testName)
     .map(r => ({
-      athlete: r.athlete,
+      name: r.athlete,
+      x: r.result,
+      y: (r.result - min) / (max - min) * 100, // normalized position
+      z: r.result,
       result: r.result,
       unit: r.unit
     }));
 
-  // Create data points for the area chart (normative range)
-  return Array.from({ length: 10 }, (_, i) => {
-    const x = i * (max - min) / 9 + min;
+  // Create area chart data for normative range
+  const areaData = Array.from({ length: 20 }, (_, i) => {
+    const x = i * (max - min) / 19 + min;
     return {
       x,
       min: min,
       max: max,
       avg: avg,
-      ...athleteResults.reduce((acc, r) => ({
-        ...acc,
-        [r.athlete]: r.result
-      }), {})
     };
   });
+
+  return { areaData, scatterData: athleteResults };
 };
 
 export default function ComparativeAnalysis() {
   const [selectedTest, setSelectedTest] = useState(normativeData[0]?.test);
-  const data = formatData(selectedTest);
   const athletes = Array.from(new Set(athleteData.map(data => data.athlete)));
+  const { areaData, scatterData } = formatData(selectedTest);
+  const testData = normativeData.find(n => n.test === selectedTest);
 
   // Generate different colors for each athlete
-  const generateColor = (index: number, alpha: number = 1) => {
-    const hue = (index * 137.5) % 360; // Golden angle approximation
-    return `hsla(${hue}, 70%, 50%, ${alpha})`;
+  const generateColor = (index: number) => {
+    return `hsl(${index * 137.5 % 360}, 70%, 50%)`;
   };
 
   return (
@@ -81,74 +83,93 @@ export default function ComparativeAnalysis() {
           </select>
         </div>
 
-        <div className="h-[600px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart
-              data={data}
-              margin={{
-                top: 20,
-                right: 30,
-                left: 20,
-                bottom: 20,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="x" 
-                type="number"
-                domain={['dataMin', 'dataMax']}
-                name="Value"
-              />
-              <YAxis />
-              <Tooltip 
-                content={({ active, payload }) => {
-                  if (!active || !payload || !payload.length) return null;
-
-                  return (
-                    <div className="bg-white p-3 border rounded shadow-lg">
-                      <p className="font-medium text-gray-900">
-                        Value: {payload[0].payload.x.toFixed(2)}
-                      </p>
-                      {athletes.map(athlete => {
-                        const value = payload[0].payload[athlete];
-                        if (value !== undefined) {
-                          return (
-                            <p key={athlete} className="text-sm">
-                              {athlete}: {value}
-                            </p>
-                          );
-                        }
-                        return null;
-                      })}
-                    </div>
-                  );
-                }}
-              />
-              <Area
-                type="monotone"
-                dataKey="max"
-                stroke="rgb(99, 102, 241)"
-                fill="rgb(99, 102, 241)"
-                fillOpacity={0.1}
-              />
-              <Area
-                type="monotone"
-                dataKey="min"
-                stroke="rgb(99, 102, 241)"
-                fill="rgb(99, 102, 241)"
-                fillOpacity={0.1}
-              />
-              {athletes.map((athlete, index) => (
-                <Scatter
-                  key={athlete}
-                  name={athlete}
-                  dataKey={athlete}
-                  fill={generateColor(index)}
-                  shape="circle"
+        <div className="h-[600px] grid grid-cols-1 gap-6">
+          {/* Normative Range Area Chart */}
+          <div className="h-[300px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={areaData}
+                margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis 
+                  dataKey="x" 
+                  type="number" 
+                  domain={['auto', 'auto']}
+                  name="Value"
                 />
-              ))}
-            </AreaChart>
-          </ResponsiveContainer>
+                <YAxis />
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (!active || !payload || !payload.length) return null;
+                    const data = payload[0].payload;
+                    return (
+                      <div className="bg-white p-3 border rounded shadow-lg">
+                        <p className="font-medium">Normative Range</p>
+                        <p className="text-sm">Min: {data.min.toFixed(2)}</p>
+                        <p className="text-sm">Max: {data.max.toFixed(2)}</p>
+                        <p className="text-sm">Avg: {data.avg.toFixed(2)}</p>
+                      </div>
+                    );
+                  }}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="max"
+                  stroke="rgb(99, 102, 241)"
+                  fill="rgb(99, 102, 241)"
+                  fillOpacity={0.1}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="min"
+                  stroke="rgb(99, 102, 241)"
+                  fill="rgb(99, 102, 241)"
+                  fillOpacity={0.1}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Athlete Results Scatter Plot */}
+          <div className="h-[300px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <ScatterChart
+                margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis 
+                  type="number" 
+                  dataKey="x" 
+                  name="Result" 
+                  domain={['auto', 'auto']}
+                />
+                <YAxis type="number" dataKey="y" name="Performance" />
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (!active || !payload || !payload.length) return null;
+                    const data = payload[0].payload;
+                    return (
+                      <div className="bg-white p-3 border rounded shadow-lg">
+                        <p className="font-medium">{data.name}</p>
+                        <p className="text-sm">
+                          Result: {data.result} {data.unit}
+                        </p>
+                      </div>
+                    );
+                  }}
+                />
+                {athletes.map((athlete, index) => (
+                  <Scatter
+                    key={athlete}
+                    name={athlete}
+                    data={scatterData.filter(d => d.name === athlete)}
+                    fill={generateColor(index)}
+                  />
+                ))}
+              </ScatterChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-3">
