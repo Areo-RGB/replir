@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useRoute, useLocation } from 'wouter';
-import { Activity, Medal, TrendingUp } from 'lucide-react';
+import { Activity } from 'lucide-react';
 import { athleteData, normativeData } from '../data';
 import PerformanceChart from '@/components/PerformanceChart';
-import RadarChart from '@/components/RadarChart';
 import ResultsTable from '@/components/ResultsTable';
 import NormativeComparison from '@/components/NormativeComparison';
 
@@ -71,15 +70,6 @@ export default function PlayerDetails() {
   // Early return if player not found
   if (!player) return null;
 
-  const participationData = athleteData.find(
-    result => result.athlete === playerName && result.test === "Teilnahme"
-  );
-  const participationRate = participationData?.result ?? 0;
-
-  const topPerformers = calculateZScores()
-    .sort((a, b) => b.averageZScore - a.averageZScore)
-    .slice(0, 3);
-
   return (
     <div className="p-6">
       <div className="flex items-center gap-3 mb-6">
@@ -88,38 +78,6 @@ export default function PlayerDetails() {
       </div>
 
       <div className="mb-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <Medal className="h-5 w-5 text-yellow-500" />
-          Top Performers
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {topPerformers.map((performer, index) => (
-            <div 
-              key={performer.athlete}
-              className={`bg-white rounded-lg p-4 shadow-sm border-l-4 ${
-                index === 0 ? 'border-yellow-400' :
-                index === 1 ? 'border-gray-400' :
-                'border-amber-600'
-              }`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-medium text-gray-900">{performer.athlete}</span>
-                <TrendingUp className={`h-4 w-4 ${
-                  index === 0 ? 'text-yellow-500' :
-                  index === 1 ? 'text-gray-500' :
-                  'text-amber-600'
-                }`} />
-              </div>
-              <div className="text-sm text-gray-600">
-                Performance Score: {performer.averageZScore.toFixed(2)}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        <RadarChart data={athleteData} selectedAthlete={playerName} />
         <PerformanceChart data={athleteData} selectedAthlete={playerName} />
       </div>
       <div className="mb-6">
