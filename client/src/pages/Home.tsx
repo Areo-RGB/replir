@@ -58,7 +58,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center">
             <Activity className="h-8 w-8 text-primary" />
-            <h1 className="ml-2 text-xl font-bold text-gray-900">Performance Overview</h1>
+            <h1 className="ml-2 text-xl font-bold text-gray-900">Übersicht</h1>
           </div>
           <div className="relative mt-4">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />

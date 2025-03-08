@@ -139,11 +139,7 @@ export const categories: Category[] = [
     name: "Coordination",
     description: "Tests measuring agility and motor skills",
   },
-  {
-    id: "deutscher_motorik_test",
-    name: "Deutscher Motorik Test",
-    description: "Standardized motor performance test battery",
-  }
+  
 ];
 
 export const athleteData: AthleteResult[] = [
