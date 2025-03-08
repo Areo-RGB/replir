@@ -22,6 +22,7 @@ export interface NormativeData {
     range: [number, number];
     label: string;
   }[];
+  lowerIsBetter?: boolean;
 }
 
 export const normativeData: NormativeData[] = [
@@ -29,6 +30,72 @@ export const normativeData: NormativeData[] = [
     test: "Schnelligkeit (20m)",
     values: [4.14, 4.01, 3.93, 3.87, 3.82, 3.78, 3.74, 3.69, 3.64, 3.57, 3.47],
     unit: "s",
+    lowerIsBetter: true,
+    ratings: [
+      { range: [0, 30], label: "unterdurchschnittlich (C)" },
+      { range: [31, 70], label: "durchschnittlich (B)" },
+      { range: [71, 80], label: "gut (A)" },
+      { range: [81, 90], label: "sehr gut (A)" },
+      { range: [91, 100], label: "ausgezeichnet (A)" }
+    ]
+  },
+  {
+    test: "Antritt (10m)",
+    values: [2.39, 2.33, 2.28, 2.24, 2.21, 2.18, 2.16, 2.13, 2.1, 2.05, 1.99],
+    unit: "s",
+    lowerIsBetter: true,
+    ratings: [
+      { range: [0, 30], label: "unterdurchschnittlich (C)" },
+      { range: [31, 70], label: "durchschnittlich (B)" },
+      { range: [71, 80], label: "gut (A)" },
+      { range: [81, 90], label: "sehr gut (A)" },
+      { range: [91, 100], label: "ausgezeichnet (A)" }
+    ]
+  },
+  {
+    test: "Gewandtheit",
+    values: [9.66, 9.35, 9.07, 8.9, 8.77, 8.66, 8.54, 8.42, 8.28, 8.11, 7.91],
+    unit: "s",
+    lowerIsBetter: true,
+    ratings: [
+      { range: [0, 30], label: "unterdurchschnittlich (C)" },
+      { range: [31, 70], label: "durchschnittlich (B)" },
+      { range: [71, 80], label: "gut (A)" },
+      { range: [81, 90], label: "sehr gut (A)" },
+      { range: [91, 100], label: "ausgezeichnet (A)" }
+    ]
+  },
+  {
+    test: "Dribbling",
+    values: [14.37, 13.42, 12.84, 12.46, 12.15, 11.9, 11.69, 11.44, 11.16, 10.84, 10.43],
+    unit: "s",
+    lowerIsBetter: true,
+    ratings: [
+      { range: [0, 30], label: "unterdurchschnittlich (C)" },
+      { range: [31, 70], label: "durchschnittlich (B)" },
+      { range: [71, 80], label: "gut (A)" },
+      { range: [81, 90], label: "sehr gut (A)" },
+      { range: [91, 100], label: "ausgezeichnet (A)" }
+    ]
+  },
+  {
+    test: "Ballkontrolle",
+    values: [15.29, 13.81, 12.86, 12.28, 11.78, 11.36, 10.99, 15.59, 10.18, 9.66, 9],
+    unit: "s",
+    lowerIsBetter: true,
+    ratings: [
+      { range: [0, 30], label: "unterdurchschnittlich (C)" },
+      { range: [31, 70], label: "durchschnittlich (B)" },
+      { range: [71, 80], label: "gut (A)" },
+      { range: [81, 90], label: "sehr gut (A)" },
+      { range: [91, 100], label: "ausgezeichnet (A)" }
+    ]
+  },
+  {
+    test: "Balljonglieren",
+    values: [0, 0, 0, 0, 1, 1, 1, 1, 2, 5, 6],
+    unit: "Reps",
+    lowerIsBetter: false,
     ratings: [
       { range: [0, 30], label: "unterdurchschnittlich (C)" },
       { range: [31, 70], label: "durchschnittlich (B)" },

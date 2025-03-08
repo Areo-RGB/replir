@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,6 +12,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import { NormativeData, AthleteResult } from '../data';
 import { Trophy } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 ChartJS.register(
   CategoryScale,
@@ -34,18 +35,19 @@ export default function NormativeComparison({
   athleteResults, 
   selectedAthlete 
 }: NormativeComparisonProps) {
+  const [selectedTest, setSelectedTest] = useState(normativeData[0]?.test);
 
   const getRatingForPercentile = (ratings: NormativeData['ratings'], percentile: number): string => {
     const rating = ratings.find(r => percentile >= r.range[0] && percentile <= r.range[1]);
     return rating?.label || 'nicht bewertet';
   };
 
-  const getPercentileForValue = (values: number[], value: number, unit: string): number => {
+  const getPercentileForValue = (values: number[], value: number, lowerIsBetter: boolean = false): number => {
     const sortedValues = [...values].sort((a, b) => a - b);
     const index = sortedValues.findIndex(v => v >= value);
 
-    // For time-based metrics (unit 's'), lower is better so reverse the percentile
-    if (unit === 's') {
+    // For metrics where lower is better (like sprint times), reverse the percentile
+    if (lowerIsBetter) {
       return Math.round(((sortedValues.length - 1 - index) / (sortedValues.length - 1)) * 100);
     }
 
@@ -58,11 +60,13 @@ export default function NormativeComparison({
       r => r.test === testData.test && r.athlete === selectedAthlete
     );
 
-    if (!athleteResult) return null;
-
     const percentiles = Array.from({ length: 11 }, (_, i) => i * 10);
-    const athletePercentile = getPercentileForValue(testData.values, athleteResult.result, testData.unit);
-    const athleteRating = getRatingForPercentile(testData.ratings, athletePercentile);
+    const athletePercentile = athleteResult 
+      ? getPercentileForValue(testData.values, athleteResult.result, testData.lowerIsBetter)
+      : null;
+    const athleteRating = athletePercentile !== null 
+      ? getRatingForPercentile(testData.ratings, athletePercentile)
+      : 'nicht bewertet';
 
     const options = {
       responsive: true,
@@ -112,14 +116,14 @@ export default function NormativeComparison({
           backgroundColor: 'rgba(99, 102, 241, 0.2)',
           tension: 0.4
         },
-        {
+        ...(athleteResult ? [{
           label: 'Athlete',
           data: Array(11).fill(athleteResult.result),
           borderColor: 'rgb(239, 68, 68)',
           backgroundColor: 'rgba(239, 68, 68, 0.5)',
           borderDash: [5, 5],
           pointStyle: false as const
-        }
+        }] : [])
       ]
     };
 
@@ -150,9 +154,27 @@ export default function NormativeComparison({
             </h3>
           </div>
           <div className={`px-3 py-1 rounded-full text-white text-sm ${getRatingColor(athleteRating)}`}>
-            {athleteRating}
+            {athleteRating === 'ausgezeichnet (A)' 
+              ? `${testData.test}: ${athleteRating}`
+              : athleteRating}
           </div>
         </div>
+
+        {/* Test Selector */}
+        <div className="mb-4">
+          <select
+            value={selectedTest}
+            onChange={(e) => setSelectedTest(e.target.value)}
+            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          >
+            {normativeData.map(test => (
+              <option key={test.test} value={test.test}>
+                {test.test}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div className="h-[300px]">
           <Line options={options} data={data} />
         </div>
@@ -160,20 +182,25 @@ export default function NormativeComparison({
           <div className="flex items-center gap-2">
             <div className="h-1 w-4 bg-indigo-500 rounded"></div>
             <span>Normative Range</span>
-            <div className="h-1 w-4 border-t-2 border-red-500 border-dashed"></div>
-            <span>Athlete Result ({athleteResult.result} {testData.unit})</span>
-            <span className="ml-auto">
-              Percentile: {athletePercentile}%
-            </span>
+            {athleteResult && (
+              <>
+                <div className="h-1 w-4 border-t-2 border-red-500 border-dashed"></div>
+                <span>Athlete Result ({athleteResult.result} {testData.unit})</span>
+                <span className="ml-auto">
+                  Percentile: {athletePercentile}%
+                </span>
+              </>
+            )}
           </div>
         </div>
       </div>
     );
   };
 
+  const currentTestData = normativeData.find(data => data.test === selectedTest);
   return (
     <div className="space-y-4">
-      {normativeData.map(data => renderNormativeChart(data))}
+      {currentTestData && renderNormativeChart(currentTestData)}
     </div>
   );
 }
