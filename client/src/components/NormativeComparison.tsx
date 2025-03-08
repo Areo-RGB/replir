@@ -11,7 +11,6 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { NormativeData, AthleteResult } from '../data';
-import { ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 ChartJS.register(
@@ -36,7 +35,6 @@ export default function NormativeComparison({
   selectedAthlete 
 }: NormativeComparisonProps) {
   const [selectedTest, setSelectedTest] = useState(normativeData[0]?.test);
-  // Removed isRatingsExpanded state and related functionality
 
   const getRatingForPercentile = (ratings: NormativeData['ratings'], percentile: number): string => {
     const rating = ratings.find(r => percentile >= r.range[0] && percentile <= r.range[1]);
@@ -167,7 +165,7 @@ export default function NormativeComparison({
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <img 
-              src="/DFB-Logo.png" 
+              src="https://upload.wikimedia.org/wikipedia/de/c/c0/DFB-Logo.svg" 
               alt="DFB Logo" 
               className="h-6 w-6"
             />
@@ -223,7 +221,7 @@ export default function NormativeComparison({
       <div className="bg-white rounded-xl shadow-sm p-4">
         <div className="flex items-center gap-2 mb-4">
           <img 
-            src="/DFB-Logo.png" 
+            src="https://upload.wikimedia.org/wikipedia/de/c/c0/DFB-Logo.svg" 
             alt="DFB Logo" 
             className="h-6 w-6"
           />
