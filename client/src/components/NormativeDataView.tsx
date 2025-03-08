@@ -232,6 +232,11 @@ export default function NormativeDataView({
               )}
             </div>
             <div className="flex items-center justify-between">
+              {datasetType === 'Leistung' && rating.rating && (
+                <div className={`px-2 py-1 rounded-full text-white text-xs ${getRatingColor(rating.rating)}`}>
+                  {rating.rating}
+                </div>
+              )}
               {rating.percentile !== null && (
                 <TooltipProvider>
                   <UITooltip>
