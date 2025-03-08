@@ -1,15 +1,13 @@
 import { useState } from 'react';
-import {
-  ScatterChart,
-  Scatter,
-  XAxis,
-  YAxis,
-  ZAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import HC_more from 'highcharts/highcharts-more';
+import HC_3d from 'highcharts/highcharts-3d';
 import { athleteData, normativeData } from '../data';
+
+// Initialize Highcharts modules
+HC_more(Highcharts);
+HC_3d(Highcharts);
 
 const formatData = (testName: string) => {
   const testData = normativeData.find(n => n.test === testName);
@@ -20,57 +18,102 @@ const formatData = (testName: string) => {
   const min = sortedValues[0];
   const max = sortedValues[sortedValues.length - 1];
 
-  // Create normative data surface points for 3D visualization
-  const normativePoints = [];
-  const gridSize = 10; // Create a 10x10 grid for the surface
-
-  for (let i = 0; i < gridSize; i++) {
-    for (let j = 0; j < gridSize; j++) {
-      const x = min + (max - min) * (i / (gridSize - 1));
-      const normalizedX = (x - min) / (max - min) * 100;
-      const z = j * 5; // Depth dimension
-
-      // Calculate y value based on normal distribution
-      const mean = (min + max) / 2;
-      const stdDev = (max - min) / 4;
-      const y = Math.exp(-Math.pow(x - mean, 2) / (2 * Math.pow(stdDev, 2))) * 100;
-
-      normativePoints.push({
-        x,
-        y,
-        z,
-        value: x,
-        type: 'normative'
-      });
-    }
-  }
+  // Create normative data points
+  const normativeData = testData.values.map((value) => ({
+    x: value,
+    y: (value - min) / (max - min) * 100,
+    z: 0
+  }));
 
   // Get athlete results for this test
-  const athletePoints = athleteData
+  const athleteData = athleteData
     .filter(r => r.test === testName)
-    .map((r, index) => ({
+    .map(r => ({
       x: r.result,
       y: (r.result - min) / (max - min) * 100,
-      z: 25 + index * 5, // Position athletes in the middle of the visualization
-      athlete: r.athlete,
+      z: 50,
+      name: r.athlete,
       result: r.result,
-      unit: r.unit,
-      type: 'athlete'
+      unit: r.unit
     }));
 
-  return {
-    normativeData: normativePoints,
-    athleteData: athletePoints
-  };
+  return { normativeData, athleteData };
 };
 
 export default function ComparativeAnalysis() {
   const [selectedTest, setSelectedTest] = useState(normativeData[0]?.test);
   const { normativeData: normPoints, athleteData: athletePoints } = formatData(selectedTest);
 
-  // Generate different colors for each athlete
-  const generateColor = (index: number) => {
-    return `hsl(${index * 137.5 % 360}, 70%, 50%)`;
+  const options: Highcharts.Options = {
+    chart: {
+      type: 'scatter3d',
+      options3d: {
+        enabled: true,
+        alpha: 15,
+        beta: 15,
+        depth: 500,
+        viewDistance: 5,
+        frame: {
+          bottom: { size: 1, color: 'rgba(0,0,0,0.05)' },
+          back: { size: 1, color: 'rgba(0,0,0,0.05)' },
+          side: { size: 1, color: 'rgba(0,0,0,0.05)' }
+        }
+      }
+    },
+    title: {
+      text: `${selectedTest} - Performance Analysis`
+    },
+    subtitle: {
+      text: 'Athlete performance compared to normative data'
+    },
+    xAxis: {
+      title: { text: 'Performance Value' },
+      gridLineWidth: 1
+    },
+    yAxis: {
+      title: { text: 'Percentile' },
+      min: 0,
+      max: 100,
+      gridLineWidth: 1
+    },
+    zAxis: {
+      title: { text: 'Depth' },
+      min: 0,
+      max: 100,
+      gridLineWidth: 1
+    },
+    legend: {
+      enabled: true
+    },
+    tooltip: {
+      formatter: function() {
+        const point = this.point as any;
+        if (point.name) {
+          return `<b>${point.name}</b><br/>
+                  Result: ${point.result} ${point.unit}<br/>
+                  Percentile: ${point.y.toFixed(1)}%`;
+        }
+        return `<b>Normative Value</b><br/>
+                Value: ${this.x}<br/>
+                Percentile: ${this.y.toFixed(1)}%`;
+      }
+    },
+    series: [{
+      name: 'Normative Data',
+      data: normPoints,
+      color: 'rgba(156, 163, 175, 0.5)',
+      marker: {
+        radius: 2
+      }
+    }, {
+      name: 'Athletes',
+      type: 'scatter3d',
+      data: athletePoints,
+      color: 'rgb(99, 102, 241)',
+      marker: {
+        radius: 5
+      }
+    }] as any
   };
 
   return (
@@ -98,90 +141,10 @@ export default function ComparativeAnalysis() {
         </div>
 
         <div className="h-[600px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <ScatterChart
-              margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                type="number" 
-                dataKey="x" 
-                name="Result" 
-                domain={['auto', 'auto']}
-                label={{ value: 'Performance', position: 'bottom' }}
-              />
-              <YAxis 
-                type="number" 
-                dataKey="y" 
-                name="Percentile" 
-                label={{ value: 'Percentile', angle: -90, position: 'left' }}
-              />
-              <ZAxis 
-                type="number" 
-                dataKey="z" 
-                range={[50, 400]} 
-                name="Depth"
-              />
-              <Tooltip
-                content={({ active, payload }) => {
-                  if (!active || !payload || !payload.length) return null;
-                  const data = payload[0].payload;
-
-                  if (data.type === 'athlete') {
-                    return (
-                      <div className="bg-white p-3 border rounded shadow-lg">
-                        <p className="font-medium">{data.athlete}</p>
-                        <p className="text-sm">
-                          Result: {data.result} {data.unit}
-                        </p>
-                        <p className="text-sm">
-                          Percentile: {data.y.toFixed(1)}%
-                        </p>
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div className="bg-white p-3 border rounded shadow-lg">
-                        <p className="font-medium">Normative Data</p>
-                        <p className="text-sm">Value: {data.value.toFixed(2)}</p>
-                      </div>
-                    );
-                  }
-                }}
-              />
-              {/* Normative data surface */}
-              <Scatter
-                name="Normative Range"
-                data={normPoints}
-                fill="rgba(156, 163, 175, 0.3)"
-                line={{ stroke: 'rgba(156, 163, 175, 0.5)', strokeWidth: 1 }}
-              />
-              {/* Athlete results */}
-              {athletePoints.map((point, index) => (
-                <Scatter
-                  key={point.athlete}
-                  name={point.athlete}
-                  data={[point]}
-                  fill={generateColor(index)}
-                />
-              ))}
-            </ScatterChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className="mt-4 flex flex-wrap gap-3">
-          {athletePoints.map((point, index) => (
-            <div 
-              key={point.athlete}
-              className="flex items-center gap-2 text-sm"
-            >
-              <div 
-                className="w-3 h-3 rounded-full"
-                style={{ backgroundColor: generateColor(index) }}
-              />
-              <span>{point.athlete}</span>
-            </div>
-          ))}
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={options}
+          />
         </div>
       </div>
     </div>
