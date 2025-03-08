@@ -1,20 +1,30 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Link } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import PlayerDetails from "@/pages/PlayerDetails";
-import Sidebar from "@/components/Sidebar";
+import ComparativeAnalysis from "@/pages/ComparativeAnalysis";
+
 
 function Router() {
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="ml-64 flex-1 min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-50">
+      <div className="fixed top-4 left-4 z-50">
+        <Link href="/analysis">
+          <img 
+            src="https://upload.wikimedia.org/wikipedia/de/c/c0/DFB-Logo.svg"
+            alt="DFB Logo"
+            className="w-12 h-12 cursor-pointer hover:opacity-80 transition-opacity"
+          />
+        </Link>
+      </div>
+      <div className="flex-1 ml-20">
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/player/:name" component={PlayerDetails} />
+          <Route path="/analysis" component={ComparativeAnalysis} />
           <Route component={NotFound} />
         </Switch>
       </div>

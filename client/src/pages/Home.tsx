@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { Activity, Search, Medal, TrendingUp } from 'lucide-react'; 
-import { athleteData, categories } from '../data';
-import CategoryFilter from '@/components/CategoryFilter';
+import { athleteData } from '../data';
 import TestCard from '@/components/TestCard';
 
 // Calculate z-scores and aggregate performance
 const calculateZScores = () => {
-  // Filter out participation data for z-score calculations
-  const performanceData = athleteData.filter(result => result.category !== 'participation');
+  const performanceData = athleteData;
   const athletes = Array.from(new Set(performanceData.map(result => result.athlete)));
   const tests = Array.from(new Set(performanceData.map(result => result.test)));
 
@@ -45,34 +43,24 @@ const calculateZScores = () => {
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   const uniqueTests = Array.from(new Set(athleteData.map(result => result.test)));
   const topPerformers = calculateZScores()
     .sort((a, b) => b.averageZScore - a.averageZScore)
     .slice(0, 3);
 
-  const filteredTests = uniqueTests.filter(test => {
-    const matchesSearch = test.toLowerCase().includes(searchTerm.toLowerCase());
-    const testCategory = athleteData.find(result => result.test === test)?.category || '';
-    return matchesSearch && (!selectedCategory || testCategory === selectedCategory);
-  });
+  const filteredTests = uniqueTests.filter(test => 
+    test.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <Activity className="h-8 w-8 text-primary" />
-                <h1 className="ml-2 text-xl font-bold text-gray-900">Performance Overview</h1>
-              </div>
-              <CategoryFilter
-                categories={categories}
-                selectedCategory={selectedCategory}
-                onCategoryChange={setSelectedCategory}
-              />
+            <div className="flex items-center">
+              <Activity className="h-8 w-8 text-primary" />
+              <h1 className="ml-2 text-xl font-bold text-gray-900">Performance Overview</h1>
             </div>
 
             <div className="relative">
