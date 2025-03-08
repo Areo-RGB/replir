@@ -10,7 +10,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { AthleteResult, categories } from '../data';
-import { LucideIcon, Zap, Timer, Dumbbell, MoveDiagonal } from 'lucide-react';
+import { LucideIcon, Zap, Timer, Dumbbell, MoveDiagonal, Activity } from 'lucide-react';
 
 ChartJS.register(
   CategoryScale,
@@ -31,12 +31,13 @@ const categoryIcons: Record<string, LucideIcon> = {
   'endurance': Timer,
   'strength': Dumbbell,
   'coordination': MoveDiagonal,
+  'deutscher_motorik_test': Activity,
 };
 
 export default function PerformanceChart({ data, selectedAthlete }: PerformanceChartProps) {
   // Calculate performance percentage for each category
   const calculateCategoryPerformance = (category: string): number => {
-    const categoryTests = data.filter(result => result.category === category && result.category !== 'participation');
+    const categoryTests = data.filter(result => result.category === category);
     const uniqueTests = Array.from(new Set(categoryTests.map(result => result.test)));
 
     let totalPerformance = 0;
@@ -64,7 +65,7 @@ export default function PerformanceChart({ data, selectedAthlete }: PerformanceC
 
   // Calculate performance data for each category
   const categoryPerformances = categories
-    .filter(category => category.id !== 'participation') // Exclude participation from performance calculation
+    .filter(category => category.id !== 'participation')
     .map(category => ({
       category: category.name,
       performance: calculateCategoryPerformance(category.id)
