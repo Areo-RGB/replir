@@ -37,8 +37,11 @@ const categoryIcons: Record<string, LucideIcon> = {
 export default function PerformanceChart({ data, selectedAthlete }: PerformanceChartProps) {
   // Calculate performance percentage for each category
   const calculateCategoryPerformance = (categoryId: string): number => {
-    // Get tests for this category
-    const categoryTests = data.filter(result => result.category === categoryId);
+    // Filter tests strictly by category
+    const categoryTests = data.filter(result => {
+      // Only include tests that exactly match the category
+      return result.category === categoryId;
+    });
 
     if (categoryTests.length === 0) return 0;
 
@@ -66,12 +69,10 @@ export default function PerformanceChart({ data, selectedAthlete }: PerformanceC
     return testCount > 0 ? totalPerformance / testCount : 0;
   };
 
-  const categoryPerformances = categories
-    .map(category => ({
-      category: category.name,
-      performance: calculateCategoryPerformance(category.id)
-    }))
-    .filter(cat => cat.performance !== 0);
+  const categoryPerformances = categories.map(category => ({
+    category: category.name,
+    performance: calculateCategoryPerformance(category.id)
+  }));
 
   const options = {
     indexAxis: 'y' as const,
