@@ -128,6 +128,19 @@ export const normativeData: NormativeData[] = [
       { range: [81, 90], label: "sehr gut (A)" },
       { range: [91, 100], label: "ausgezeichnet (A)" }
     ]
+  },
+  {
+    test: "Liegestütze DMT",
+    values: [1, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 13, 13, 14, 14, 14, 15, 15, 15, 16, 16, 16, 17, 17, 18, 18, 22],
+    unit: "reps",
+    lowerIsBetter: false,
+    ratings: [
+      { range: [0, 30], label: "unterdurchschnittlich (C)" },
+      { range: [31, 70], label: "durchschnittlich (B)" },
+      { range: [71, 80], label: "gut (A)" },
+      { range: [81, 90], label: "sehr gut (A)" },
+      { range: [91, 100], label: "ausgezeichnet (A)" }
+    ]
   }
 ];
 
