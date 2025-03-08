@@ -37,7 +37,15 @@ const categoryIcons: Record<string, LucideIcon> = {
 export default function PerformanceChart({ data, selectedAthlete }: PerformanceChartProps) {
   // Calculate performance percentage for each category
   const calculateCategoryPerformance = (category: string): number => {
-    const categoryTests = data.filter(result => result.category === category);
+    // Filter tests for this category, excluding tests that should be in DMT
+    const categoryTests = data.filter(result => {
+      if (category === 'deutscher_motorik_test') {
+        return result.category === category;
+      }
+      // For other categories, exclude Standweitsprung test
+      return result.category === category && result.test !== 'Standweitsprung';
+    });
+
     const uniqueTests = Array.from(new Set(categoryTests.map(result => result.test)));
 
     let totalPerformance = 0;
