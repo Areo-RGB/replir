@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { NormativeData, AthleteResult } from '../data';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 ChartJS.register(
@@ -35,6 +36,7 @@ export default function NormativeComparison({
   selectedAthlete 
 }: NormativeComparisonProps) {
   const [selectedTest, setSelectedTest] = useState(normativeData[0]?.test);
+  const [isRatingsExpanded, setIsRatingsExpanded] = useState(false);
 
   const getRatingForPercentile = (ratings: NormativeData['ratings'], percentile: number): string => {
     const rating = ratings.find(r => percentile >= r.range[0] && percentile <= r.range[1]);
@@ -165,7 +167,7 @@ export default function NormativeComparison({
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <img 
-              src="/attached_assets/DFB-Logo.svg.png" 
+              src="/DFB-Logo.svg.png" 
               alt="DFB Logo" 
               className="h-6 w-6"
             />
@@ -219,40 +221,53 @@ export default function NormativeComparison({
     <div className="space-y-4">
       {/* KPI Section */}
       <div className="bg-white rounded-xl shadow-sm p-4">
-        <div className="flex items-center gap-2 mb-4">
-          <img 
-            src="/attached_assets/DFB-Logo.svg.png" 
-            alt="DFB Logo" 
-            className="h-6 w-6"
-          />
-          <h3 className="text-lg font-semibold text-gray-900">
-            Performance Ratings
-          </h3>
+        <div 
+          className="flex items-center justify-between cursor-pointer"
+          onClick={() => setIsRatingsExpanded(!isRatingsExpanded)}
+        >
+          <div className="flex items-center gap-2">
+            <img 
+              src="/DFB-Logo.svg.png" 
+              alt="DFB Logo" 
+              className="h-6 w-6"
+            />
+            <h3 className="text-lg font-semibold text-gray-900">
+              Performance Ratings
+            </h3>
+          </div>
+          {isRatingsExpanded ? (
+            <ChevronUp className="h-5 w-5 text-gray-500" />
+          ) : (
+            <ChevronDown className="h-5 w-5 text-gray-500" />
+          )}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {testRatings.map(({ test, rating, result, unit, percentile }) => (
-            <div key={test} className="p-3 rounded-lg bg-gray-50">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-700">{test}</span>
-                {result !== undefined && (
-                  <span className="text-sm text-gray-500">
-                    {result} {unit}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center justify-between">
-                <div className={`px-2 py-1 rounded-full text-white text-xs ${getRatingColor(rating)}`}>
-                  {rating}
+
+        {isRatingsExpanded && (
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {testRatings.map(({ test, rating, result, unit, percentile }) => (
+              <div key={test} className="p-3 rounded-lg bg-gray-50">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-gray-700">{test}</span>
+                  {result !== undefined && (
+                    <span className="text-sm text-gray-500">
+                      {result} {unit}
+                    </span>
+                  )}
                 </div>
-                {percentile !== null && (
-                  <span className="text-xs text-gray-500">
-                    Percentile: {percentile}%
-                  </span>
-                )}
+                <div className="flex items-center justify-between">
+                  <div className={`px-2 py-1 rounded-full text-white text-xs ${getRatingColor(rating)}`}>
+                    {rating}
+                  </div>
+                  {percentile !== null && (
+                    <span className="text-xs text-gray-500">
+                      Percentile: {percentile}%
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Chart Section */}

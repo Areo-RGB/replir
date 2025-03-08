@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Activity, Search, Medal, TrendingUp, PartyPopper } from 'lucide-react'; 
+import { Activity, Search, Medal, TrendingUp } from 'lucide-react'; 
 import { athleteData, categories } from '../data';
 import CategoryFilter from '@/components/CategoryFilter';
 import TestCard from '@/components/TestCard';
@@ -118,30 +118,6 @@ export default function Home() {
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="sm:col-span-1">
-              {/* Find player with highest participation */}
-              {(() => {
-                const participationData = athleteData.filter(result => result.test === "Teilnahme");
-                const topParticipant = participationData.reduce((prev, current) =>
-                  (prev.result > current.result) ? prev : current
-                , {athlete: '', result: 0}); // Handle empty array case
-
-                return (
-                  <div className="bg-white rounded-lg p-4 shadow-sm border-l-4 border-green-400">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-gray-900">{topParticipant.athlete}</span>
-                      <PartyPopper className="h-4 w-4 text-green-500" />
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      Participation Rate: {topParticipant.result}%
-                    </div>
-                  </div>
-                );
-              })()}
-            </div>
           </div>
         </div>
 
