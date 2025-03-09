@@ -439,4 +439,18 @@ export const athleteData: AthleteResult[] = [
     result: 32,
     unit: "jumps",
   },
+  {
+    test: "Gewandtheit",
+    athlete: "Arvid",
+    category: "coordination",
+    result: 8.6,
+    unit: "s",
+  },
+  {
+    test: "Dribbling",
+    athlete: "Arvid",
+    category: "coordination",
+    result: 11.3,
+    unit: "s",
+  },
 ];
