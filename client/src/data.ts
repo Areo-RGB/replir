@@ -36,8 +36,8 @@ export const normativeData: NormativeData[] = [
       { range: [31, 70], label: "durchschnittlich (B)" },
       { range: [71, 80], label: "gut (A)" },
       { range: [81, 90], label: "sehr gut (A)" },
-      { range: [91, 100], label: "ausgezeichnet (A)" }
-    ]
+      { range: [91, 100], label: "ausgezeichnet (A)" },
+    ],
   },
   {
     test: "Antritt (10m)",
@@ -49,8 +49,8 @@ export const normativeData: NormativeData[] = [
       { range: [31, 70], label: "durchschnittlich (B)" },
       { range: [71, 80], label: "gut (A)" },
       { range: [81, 90], label: "sehr gut (A)" },
-      { range: [91, 100], label: "ausgezeichnet (A)" }
-    ]
+      { range: [91, 100], label: "ausgezeichnet (A)" },
+    ],
   },
   {
     test: "Gewandtheit",
@@ -62,12 +62,15 @@ export const normativeData: NormativeData[] = [
       { range: [31, 70], label: "durchschnittlich (B)" },
       { range: [71, 80], label: "gut (A)" },
       { range: [81, 90], label: "sehr gut (A)" },
-      { range: [91, 100], label: "ausgezeichnet (A)" }
-    ]
+      { range: [91, 100], label: "ausgezeichnet (A)" },
+    ],
   },
   {
     test: "Dribbling",
-    values: [14.37, 13.42, 12.84, 12.46, 12.15, 11.9, 11.69, 11.44, 11.16, 10.84, 10.43],
+    values: [
+      14.37, 13.42, 12.84, 12.46, 12.15, 11.9, 11.69, 11.44, 11.16, 10.84,
+      10.43,
+    ],
     unit: "s",
     lowerIsBetter: true,
     ratings: [
@@ -75,12 +78,14 @@ export const normativeData: NormativeData[] = [
       { range: [31, 70], label: "durchschnittlich (B)" },
       { range: [71, 80], label: "gut (A)" },
       { range: [81, 90], label: "sehr gut (A)" },
-      { range: [91, 100], label: "ausgezeichnet (A)" }
-    ]
+      { range: [91, 100], label: "ausgezeichnet (A)" },
+    ],
   },
   {
     test: "Ballkontrolle",
-    values: [15.29, 13.81, 12.86, 12.28, 11.78, 11.36, 10.99, 15.59, 10.18, 9.66, 9],
+    values: [
+      15.29, 13.81, 12.86, 12.28, 11.78, 11.36, 10.99, 15.59, 10.18, 9.66, 9,
+    ],
     unit: "s",
     lowerIsBetter: true,
     ratings: [
@@ -88,8 +93,8 @@ export const normativeData: NormativeData[] = [
       { range: [31, 70], label: "durchschnittlich (B)" },
       { range: [71, 80], label: "gut (A)" },
       { range: [81, 90], label: "sehr gut (A)" },
-      { range: [91, 100], label: "ausgezeichnet (A)" }
-    ]
+      { range: [91, 100], label: "ausgezeichnet (A)" },
+    ],
   },
   {
     test: "Balljonglieren",
@@ -101,24 +106,35 @@ export const normativeData: NormativeData[] = [
       { range: [31, 70], label: "durchschnittlich (B)" },
       { range: [71, 80], label: "gut (A)" },
       { range: [81, 90], label: "sehr gut (A)" },
-      { range: [91, 100], label: "ausgezeichnet (A)" }
-    ]
+      { range: [91, 100], label: "ausgezeichnet (A)" },
+    ],
   },
   {
     test: "Standweitsprung DMT",
-    values: [76, 99, 104, 108, 111, 113, 115, 118, 120, 122, 125, 126, 129, 131, 132, 133, 134, 135, 136, 138, 139, 140, 141, 142, 143, 145, 146, 147, 148, 149, 150, 151, 153, 154, 155, 156, 157, 158, 160, 161, 162, 165, 167, 169, 171, 174, 176, 178, 181, 183, 188, 192, 216],
+    values: [
+      76, 99, 104, 108, 111, 113, 115, 118, 120, 122, 125, 126, 129, 131, 132,
+      133, 134, 135, 136, 138, 139, 140, 141, 142, 143, 145, 146, 147, 148, 149,
+      150, 151, 153, 154, 155, 156, 157, 158, 160, 161, 162, 165, 167, 169, 171,
+      174, 176, 178, 181, 183, 188, 192, 216,
+    ],
     unit: "cm",
     ratings: [
       { range: [0, 30], label: "unterdurchschnittlich (C)" },
       { range: [31, 70], label: "durchschnittlich (B)" },
       { range: [71, 80], label: "gut (A)" },
       { range: [81, 90], label: "sehr gut (A)" },
-      { range: [91, 100], label: "ausgezeichnet (A)" }
-    ]
+      { range: [91, 100], label: "ausgezeichnet (A)" },
+    ],
   },
   {
     test: "Seitliches Hin- und Herspringen DMT",
-    values: [7.5, 14.0, 15.0, 16.5, 17.0, 17.5, 18.5, 19.0, 19.5, 20.0, 21.0, 21.5, 22.0, 22.5, 23.0, 23.0, 23.5, 23.5, 24.0, 24.5, 24.5, 25.0, 25.5, 25.5, 26.0, 26.5, 26.5, 27.0, 27.0, 27.5, 28.0, 28.0, 28.5, 29.0, 29.0, 29.5, 30.0, 30.0, 30.5, 30.5, 31.0, 32.0, 32.5, 33.0, 33.5, 34.0, 35.0, 35.5, 36.0, 37.0, 38.0, 39.5, 45.5],
+    values: [
+      7.5, 14.0, 15.0, 16.5, 17.0, 17.5, 18.5, 19.0, 19.5, 20.0, 21.0, 21.5,
+      22.0, 22.5, 23.0, 23.0, 23.5, 23.5, 24.0, 24.5, 24.5, 25.0, 25.5, 25.5,
+      26.0, 26.5, 26.5, 27.0, 27.0, 27.5, 28.0, 28.0, 28.5, 29.0, 29.0, 29.5,
+      30.0, 30.0, 30.5, 30.5, 31.0, 32.0, 32.5, 33.0, 33.5, 34.0, 35.0, 35.5,
+      36.0, 37.0, 38.0, 39.5, 45.5,
+    ],
     unit: "jumps",
     lowerIsBetter: false,
     ratings: [
@@ -126,12 +142,16 @@ export const normativeData: NormativeData[] = [
       { range: [31, 70], label: "durchschnittlich (B)" },
       { range: [71, 80], label: "gut (A)" },
       { range: [81, 90], label: "sehr gut (A)" },
-      { range: [91, 100], label: "ausgezeichnet (A)" }
-    ]
+      { range: [91, 100], label: "ausgezeichnet (A)" },
+    ],
   },
   {
     test: "Liegestütze DMT",
-    values: [1, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 13, 13, 14, 14, 14, 15, 15, 15, 16, 16, 16, 17, 17, 18, 18, 22],
+    values: [
+      1, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10,
+      11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 13, 13, 14,
+      14, 14, 15, 15, 15, 16, 16, 16, 17, 17, 18, 18, 22,
+    ],
     unit: "reps",
     lowerIsBetter: false,
     ratings: [
@@ -139,9 +159,9 @@ export const normativeData: NormativeData[] = [
       { range: [31, 70], label: "durchschnittlich (B)" },
       { range: [71, 80], label: "gut (A)" },
       { range: [81, 90], label: "sehr gut (A)" },
-      { range: [91, 100], label: "ausgezeichnet (A)" }
-    ]
-  }
+      { range: [91, 100], label: "ausgezeichnet (A)" },
+    ],
+  },
 ];
 
 export const categories: Category[] = [
@@ -409,5 +429,14 @@ export const athleteData: AthleteResult[] = [
     category: "endurance",
     result: 186,
     unit: "s",
+  },
+
+  // New entry for Arvid
+  {
+    test: "Seitliches Hin- und Herspringen",
+    athlete: "Arvid",
+    category: "deutscher_motorik_test",
+    result: 32,
+    unit: "jumps",
   },
 ];
