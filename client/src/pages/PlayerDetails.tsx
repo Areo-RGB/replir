@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useRoute, useLocation } from "wouter";
 import { Activity } from "lucide-react";
 import { athleteData, normativeData } from "../data";
-import ResultsTable from "@/components/ResultsTable";
 import NormativeDataView from "@/components/NormativeDataView";
 
 export default function PlayerDetails() {
@@ -36,7 +35,9 @@ export default function PlayerDetails() {
     <div className="p-6">
       <div className="flex items-center gap-3 mb-6">
         <Activity className="h-8 w-8 text-primary" />
-        <h1 className="text-2xl font-bold text-gray-900">Norm</h1>
+        <h1 className="text-2xl font-bold text-gray-900">
+          Performance Analytics
+        </h1>
       </div>
 
       <div className="mb-6">
@@ -46,7 +47,6 @@ export default function PlayerDetails() {
           selectedAthlete={playerName}
         />
       </div>
-      <ResultsTable data={athleteData} selectedAthlete={playerName} />
     </div>
   );
 }
