@@ -3,6 +3,10 @@
     "version":  "1.0.0",
     "type":  "module",
     "license":  "MIT",
+    "engines": {
+        "node": "22.x",
+        "npm": "10.x"
+    },
     "scripts":  {
                     "dev":  "tsx server/index.ts",
                     "build":  "vite build && tsc server/index.ts --outDir dist --esModuleInterop --module ESNext",
