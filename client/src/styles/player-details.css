@@ -1,0 +1,11 @@
+.filter-button {
+    border: 1px solid #ccc; /* Light gray border */
+    padding: 5px 10px; /* Adjust padding as needed */
+    border-radius: 3px; /* Optional: adds rounded corners */
+}
+
+.logo-border {
+    border: 1px solid #ccc; /* Light gray border */
+    padding: 2px; /* Adjust padding as needed */
+    border-radius: 3px; /* Optional: adds rounded corners */
+}

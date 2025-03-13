@@ -36,7 +36,7 @@ export default function PlayerDetails() {
       <div className="flex items-center gap-3 mb-6">
         <Activity className="h-8 w-8 text-primary" />
         <h1 className="text-2xl font-bold text-gray-900">
-          Performance Analytics
+          Übersicht
         </h1>
       </div>
 
@@ -45,6 +45,7 @@ export default function PlayerDetails() {
           normativeData={normativeData}
           athleteResults={athleteData}
           selectedAthlete={playerName}
+          buttonClassName="filter-button" // Add this line
         />
       </div>
     </div>

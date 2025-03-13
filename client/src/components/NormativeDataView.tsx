@@ -36,12 +36,14 @@ interface NormativeDataViewProps {
   normativeData: NormativeData[];
   athleteResults: AthleteResult[];
   selectedAthlete: string;
+  buttonClassName: string;
 }
 
 export default function NormativeDataView({
   normativeData,
   athleteResults,
   selectedAthlete,
+  buttonClassName,
 }: NormativeDataViewProps) {
   const [datasetType, setDatasetType] = useState<"Leistung" | "Motorik">(
     "Leistung",
@@ -249,13 +251,13 @@ export default function NormativeDataView({
           <img
             src="https://upload.wikimedia.org/wikipedia/de/c/c0/DFB-Logo.svg"
             alt="Leistungsdiagnostik Logo"
-            className={`h-8 cursor-pointer ${datasetType === "Leistung" ? "opacity-100" : "opacity-50"}`}
+            className={`h-8 cursor-pointer logo-border ${datasetType === "Leistung" ? "opacity-100" : "opacity-50"}`}
             onClick={() => setDatasetType("Leistung")}
           />
           <img
             src="https://i.imgur.com/CVNGfEc.png"
             alt="Motorik Test Logo"
-            className={`h-8 cursor-pointer ${datasetType === "Motorik" ? "opacity-100" : "opacity-50"}`}
+            className={`h-8 cursor-pointer logo-border ${datasetType === "Motorik" ? "opacity-100" : "opacity-50"}`}
             onClick={() => setDatasetType("Motorik")}
           />
         </div>
